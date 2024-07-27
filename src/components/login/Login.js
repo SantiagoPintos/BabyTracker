@@ -7,14 +7,20 @@ const Login = () => {
     const API_URL = 'https://babytracker.develotion.com/';
 
     const login = () => {
+        const [ user, password ] = [ usuario.current.value, passwd.current.value ];
+        if(user.trim() === '' || password.trim() === '' || user === undefined || password === undefined){
+            alert('Por favor, completa los campos');
+            return;
+        }
+
         fetch(API_URL+'login.php',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                usuario: usuario.current.value,
-                password: passwd.current.value
+                usuario: user,
+                password: password
             })
         })
         .then((r) => {
