@@ -4,12 +4,12 @@ const Registro = () => {
     const API_URL = 'https://babytracker.develotion.com/'
     const [ departamentos, setDepartamentos ] = useState([]);
     const [ ciudades, setCiudades ] = useState([]);
-    const usuario = useRef(null);
-    const passwd = useRef(null);
-    const [ user, setUser ] = useState(null);
-    const [ pass, setPass ] = useState(null);
-    const [ ciudad, setCiudad ] = useState(null);
-    const [ departamento, setDepartamento ] = useState(null);
+    const usuario = useRef(undefined);
+    const passwd = useRef(undefined);
+    const [ user, setUser ] = useState(undefined);
+    const [ pass, setPass ] = useState(undefined);
+    const [ ciudad, setCiudad ] = useState(undefined);
+    const [ departamento, setDepartamento ] = useState(undefined);
 
     useEffect(() => {
         fetch(API_URL+'departamentos.php')
@@ -45,7 +45,18 @@ const Registro = () => {
     const registrar = () => {
         setUser(usuario.current.value);
         setPass(passwd.current.value);
+        if(!validarDatos(user, pass, departamento, ciudad)){
+            alert('Por favor, completa los campos');
+            return;
+        }
     };
+
+    const validarDatos = (user, password, departamento, ciudad) => {
+        if(user.trim() === '' || password.trim() === '' || user === undefined || password === undefined || departamento === undefined || ciudad === undefined){
+            return false;
+        }
+        return true;
+    }
 
 
     return(
