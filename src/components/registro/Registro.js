@@ -27,10 +27,10 @@ const Registro = () => {
         .then(r => r.json())
         .then(data => {
             setCiudades(data.ciudades);
+            guardarDepartamento(idDepartamento);
         })
         .catch(err => console.log(err))
 
-        guardarDepartamento(idDepartamento);
     };
 
     const guardarDepartamento = (id) => {
