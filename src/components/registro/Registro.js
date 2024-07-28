@@ -2,8 +2,10 @@ import { useEffect, useState, useRef } from "react";
 import { API_URL } from "../../constants/constants";
 
 const Registro = () => {
+    //para select(s)
     const [ departamentos, setDepartamentos ] = useState([]);
     const [ ciudades, setCiudades ] = useState([]);
+    //para fetch de registro
     const usuario = useRef('');
     const passwd = useRef('');
     const [ ciudad, setCiudad ] = useState(undefined);
