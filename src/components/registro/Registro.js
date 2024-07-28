@@ -13,7 +13,11 @@ const Registro = () => {
         fetch(API_URL+'departamentos.php')
         .then(r => r.json())
         .then(data => {
-            setDepartamentos(data.departamentos);
+            if(data.codigo === 200){
+                setDepartamentos(data.departamentos);
+            } else {
+                Promise.reject({error: data.codigo, msj: "Algo salió mal"});
+            }
         })
         .catch(err => {
             console.log(err);
