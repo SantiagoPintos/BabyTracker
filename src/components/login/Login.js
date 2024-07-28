@@ -1,10 +1,9 @@
 import { useRef } from "react";
-
+import { API_URL } from "../../constants/constants";
 
 const Login = () => {
     const usuario = useRef(undefined);
     const passwd = useRef(undefined);
-    const API_URL = 'https://babytracker.develotion.com/';
 
     const login = () => {
         const [ user, password ] = [ usuario.current.value, passwd.current.value ];

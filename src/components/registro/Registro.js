@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
+import { API_URL } from "../../constants/constants";
 
 const Registro = () => {
-    const API_URL = 'https://babytracker.develotion.com/'
     const [ departamentos, setDepartamentos ] = useState([]);
     const [ ciudades, setCiudades ] = useState([]);
     const usuario = useRef('');
@@ -44,8 +44,6 @@ const Registro = () => {
         if(!validarDatos(usuario, passwd, departamento, ciudad)){
             alert('Por favor, completa los campos');
             return;
-        } else {
-            alert
         }
     };
 
