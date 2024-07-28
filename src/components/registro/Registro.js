@@ -33,8 +33,12 @@ const Registro = () => {
         fetch(API_URL+'ciudades.php?idDepartamento='+idDepartamento)
         .then(r => r.json())
         .then(data => {
-            setCiudades(data.ciudades);
-            guardarDepartamento(idDepartamento);
+            if(data.codigo === 200){
+                setCiudades(data.ciudades);
+                guardarDepartamento(idDepartamento);
+            } else {
+                Promise.reject({error: data.codigo, msj: "Algo salió mal"});
+            }
         })
         .catch(err => console.log(err))
 
