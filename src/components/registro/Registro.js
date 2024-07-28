@@ -20,6 +20,9 @@ const Registro = () => {
 
     const cargarCiudades = (event) => {
         const idDepartamento = event.target.value;
+        //en caso de que usuario seleccione "Seleccione..." no es necesario hacer una petición a la API.
+        if(idDepartamento === -1) return;
+
         fetch(API_URL+'ciudades.php?idDepartamento='+idDepartamento)
         .then(r => r.json())
         .then(data => {
