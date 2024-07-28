@@ -103,6 +103,7 @@ const Registro = () => {
             <br />
             <label>Departamento</label>
             <select onChange={cargarCiudades}>
+                    <option key={-1} value={-1}>Seleccione...</option>
                 {departamentos.map(departamento => (
                     <option key={departamento.id} value={departamento.id}>{departamento.nombre}</option>
                 ))}
@@ -110,6 +111,7 @@ const Registro = () => {
             <br />
             <label>Ciudad</label>
             <select onChange={guardarCiudad}>
+                    <option key={-1} value={-1}>Seleccione...</option>
                 {ciudades.map(ciudad => (
                     <option key={ciudad.id} value={ciudad.id}>{ciudad.nombre}</option>
                 ))}
