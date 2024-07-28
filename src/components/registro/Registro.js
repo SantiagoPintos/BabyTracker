@@ -4,10 +4,8 @@ const Registro = () => {
     const API_URL = 'https://babytracker.develotion.com/'
     const [ departamentos, setDepartamentos ] = useState([]);
     const [ ciudades, setCiudades ] = useState([]);
-    const usuario = useRef(undefined);
-    const passwd = useRef(undefined);
-    const [ user, setUser ] = useState(undefined);
-    const [ pass, setPass ] = useState(undefined);
+    const usuario = useRef('');
+    const passwd = useRef('');
     const [ ciudad, setCiudad ] = useState(undefined);
     const [ departamento, setDepartamento ] = useState(undefined);
 
@@ -43,11 +41,11 @@ const Registro = () => {
 
 
     const registrar = () => {
-        setUser(usuario.current.value);
-        setPass(passwd.current.value);
-        if(!validarDatos(user, pass, departamento, ciudad)){
+        if(!validarDatos(usuario, passwd, departamento, ciudad)){
             alert('Por favor, completa los campos');
             return;
+        } else {
+            alert
         }
     };
 
