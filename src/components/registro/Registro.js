@@ -39,21 +39,54 @@ const Registro = () => {
         setCiudad(idCiudad);
     }
 
-
-    const registrar = () => {
-        if(!validarDatos(usuario, passwd, departamento, ciudad)){
-            alert('Por favor, completa los campos');
-            return;
-        }
-    };
-
     const validarDatos = (user, password, departamento, ciudad) => {
-        if(user.trim() === '' || password.trim() === '' || user === undefined || password === undefined || departamento === undefined || ciudad === undefined){
+        if(user === undefined || password === undefined || departamento === undefined || ciudad === undefined){
             return false;
         }
         return true;
-    }
+    };
 
+    const registrar = () => {
+        if(!validarDatos(usuario.current.value, passwd.current.value, departamento, ciudad)){
+            alert('Por favor, completa los campos');
+            return;
+        }
+
+        const registro = {
+            usuario: usuario.current.value,
+            password: passwd.current.value,
+            idCiudad: ciudad,
+            idDepartamento: departamento
+        };
+
+        fetch(API_URL+'usuarios.php',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(registro)
+        })
+        .then(r => {
+            if(r.status === 200 || r.status === 409){
+                //409 = ya existe el usuario
+                return r.json();
+            }
+            return Promise.reject({error: r.status, msj: "Algo salió mal"});
+        })
+        .then(data => {
+            if(data.codigo === 200){
+                alert(data.mensaje);
+                localStorage.setItem('token', data.apiKey);
+                localStorage.setItem('id', data.id);
+            } else {
+                alert(data.mensaje);
+            }
+        })
+        .catch(error => {
+            alert(error.msj);
+            console.error(error);
+        });
+    };
 
     return(
         <div>
