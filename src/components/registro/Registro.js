@@ -40,7 +40,7 @@ const Registro = () => {
     }
 
     const validarDatos = (user, password, departamento, ciudad) => {
-        if(user === undefined || password === undefined || departamento === undefined || ciudad === undefined){
+        if(user.trim() === '' || password.trim() === '' || user === undefined || password === undefined || departamento === undefined || ciudad === undefined){
             return false;
         }
         return true;
