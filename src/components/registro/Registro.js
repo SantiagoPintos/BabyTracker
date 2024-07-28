@@ -15,7 +15,10 @@ const Registro = () => {
         .then(data => {
             setDepartamentos(data.departamentos);
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            alert('No se pudieron cargar los departamentos');
+        })
     }, []);
 
     const cargarCiudades = (event) => {
