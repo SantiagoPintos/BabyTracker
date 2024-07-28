@@ -2,13 +2,13 @@ import { useRef } from "react";
 
 
 const Login = () => {
-    const usuario = useRef(null);
-    const passwd = useRef(null);
+    const usuario = useRef(undefined);
+    const passwd = useRef(undefined);
     const API_URL = 'https://babytracker.develotion.com/';
 
     const login = () => {
         const [ user, password ] = [ usuario.current.value, passwd.current.value ];
-        if(user.trim() === '' || password.trim() === '' || user === undefined || password === undefined){
+        if(!validarDatos(user, password)){
             alert('Por favor, completa los campos');
             return;
         }
@@ -43,8 +43,15 @@ const Login = () => {
         .catch(error => {
             console.error(error);
         });
-        
     };
+
+    const validarDatos = (user, password) => {
+        if(user.trim() === '' || password.trim() === '' || user === undefined || password === undefined){
+            return false;
+        }
+        return true;
+    };
+
 
     return(
         <div>
