@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { API_URL } from "../../constants/constants";
+import { API_URL } from "../constants/constants";
 
 const Registro = () => {
     //para select(s)

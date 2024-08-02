@@ -53,19 +53,24 @@ const Login = () => {
 
 
     return(
-        <div>
-            <h1>Login</h1>
-            <label>
-                Usuario
-                <input type="text" ref={usuario} />
-            </label>
-            <br />
-            <label>
-                Contraseña
-                <input type="password" ref={passwd} />
-            </label>
-            <br />
-            <button onClick={login}>Ingresar</button>
+        <div className="container-fluid">
+            <div className="row justify-content-center my-3">
+                <div className="col-6">
+                    <h1>Login</h1>
+                    <br />
+                    <label className="form-label">
+                        Usuario
+                        <input className="form-control" type="text" ref={usuario} />
+                    </label>
+                    <br />
+                    <label className="form-label">
+                        Contraseña
+                        <input className="form-control" type="password" ref={passwd} />
+                    </label>
+                    <br />
+                    <button className="btn btn-primary" onClick={login}>Ingresar</button>
+                </div> 
+            </div>
         </div>
     );
 }
