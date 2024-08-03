@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API_URL } from '../constants/constants';
+import AgregarEvento from './AgregarEvento';
 
 const Dashboard = () => {
   const [ categorias, setCategorias ] = useState([]);
@@ -28,7 +29,9 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>Dashboard</div>
+    <div>
+      <AgregarEvento categorias={categorias} />
+    </div>
   )
 }
 
