@@ -55,20 +55,20 @@ const Login = () => {
     return(
         <div className="container-fluid">
             <div className="row justify-content-center my-3">
-                <div className="col-6">
-                    <h1>Login</h1>
-                    <br />
-                    <label className="form-label">
-                        Usuario
-                        <input className="form-control" type="text" ref={usuario} />
-                    </label>
-                    <br />
-                    <label className="form-label">
-                        Contraseña
-                        <input className="form-control" type="password" ref={passwd} />
-                    </label>
-                    <br />
-                    <button className="btn btn-primary" onClick={login}>Ingresar</button>
+                <div className="col-lg-4 col-md-8 col-sm-6">
+                    <div className="text-center my-5">
+                        <h1>Inicio de sesión</h1>
+                    </div>
+                    {/* https://getbootstrap.com/docs/5.0/forms/floating-labels/#example */}
+                    <div className="form-floating mb-3">
+                        <input className="form-control" id="usuario" type="text" ref={usuario} />
+                        <label htmlFor="usuario">Usuario</label>
+                    </div>
+                    <div className="form-floating">
+                        <input className="form-control" id="passwd" type="password" ref={passwd} />
+                        <label htmlFor="passwd">Contraseña</label>
+                    </div>
+                    <button className="btn btn-primary my-2" onClick={login}>Ingresar</button>
                 </div> 
             </div>
         </div>
