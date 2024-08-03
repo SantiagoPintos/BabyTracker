@@ -105,35 +105,39 @@ const Registro = () => {
     };
 
     return(
-        <div>
-            <h1>Registro</h1>
-            <label>
-                Usuario
-                <input type="text" ref={usuario} />
-            </label>
-            <br />
-            <label>
-                Contraseña
-                <input type="password" ref={passwd} />
-            </label>
-            <br />
-            <label>Departamento</label>
-            <select onChange={cargarCiudades}>
-                    <option key={-1} value={-1}>Seleccione...</option>
-                {departamentos.map(departamento => (
-                    <option key={departamento.id} value={departamento.id}>{departamento.nombre}</option>
-                ))}
-            </select>
-            <br />
-            <label>Ciudad</label>
-            <select onChange={guardarCiudad}>
-                    <option key={-1} value={-1}>Seleccione...</option>
-                {ciudades.map(ciudad => (
-                    <option key={ciudad.id} value={ciudad.id}>{ciudad.nombre}</option>
-                ))}
-            </select>
-            <br />
-            <input type="button" value="Registrarse" onClick={registrar}/>
+        <div className="container-fluid">
+            <div className="row justify-content-center my-3">
+                <div className="col-lg-4 col-md-8 col-sm-6">
+                    <h1 className="py-3">Registrarse</h1>
+                    <div className="form-floating my-3">
+                        <input className="form-control" type="text" id="usuario" ref={usuario} />
+                        <label htmlFor="usuario">Usuario</label>
+                    </div>
+                    <div className="form-floating my-3">
+                        <input className="form-control" id="passwd" type="password" ref={passwd} />
+                        <label htmlFor="passwd">Contraseña</label>
+                    </div>
+                    <div className="form-floating my-3">
+                        <select className="form-select" id="selectDepto" onChange={cargarCiudades}>
+                                <option key={-1} value={-1}>Seleccione...</option>
+                            {departamentos.map(departamento => (
+                                <option key={departamento.id} value={departamento.id}>{departamento.nombre}</option>
+                            ))}
+                        </select>
+                        <label htmlFor="selectDpto">Departamento</label>
+                    </div>
+                    <div className="form-floating my-3">
+                        <select className="form-select" id="selectCiudad" onChange={guardarCiudad}>
+                                <option key={-1} value={-1}>Seleccione...</option>
+                            {ciudades.map(ciudad => (
+                                <option key={ciudad.id} value={ciudad.id}>{ciudad.nombre}</option>
+                            ))}
+                        </select>
+                        <label htmlFor="selectCiudad">Ciudad</label>
+                    </div>
+                    <input className="btn btn-primary my-3" type="button" value="Registrarse" onClick={registrar}/>
+                </div>
+            </div>
         </div>
     )
 }
