@@ -1,9 +1,12 @@
 import { useRef } from "react";
 import { API_URL } from "../constants/constants";
+import { useDispatch } from "react-redux";
+import { exitoso } from "../features/loginSlice";
 
 const Login = () => {
     const usuario = useRef('');
     const passwd = useRef('');
+    const distpatch = useDispatch();
 
     const login = () => {
         const [ user, password ] = [ usuario.current.value, passwd.current.value ];
@@ -35,8 +38,7 @@ const Login = () => {
             }
             if(data.codigo===200){
                 alert('Bienvenido');
-                localStorage.setItem('token', data.apiKey);
-                localStorage.setItem('id', data.id);
+                distpatch(exitoso({id: data.id, token: data.token, estaLogueado: true}));
             }
         })
         .catch(error => {
