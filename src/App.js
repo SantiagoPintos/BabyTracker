@@ -1,12 +1,14 @@
 import './App.css';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 import Login from './components/Login';
 import Registro from './components/Registro';
 
 function App() {
   return (
-    <div className="App">
+    <Provider store={store}>
       <Login />
-    </div>
+    </Provider>
   );
 }
 
