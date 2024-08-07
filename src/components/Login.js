@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { API_URL } from "../constants/constants";
 import { useDispatch } from "react-redux";
 import { exitoso } from "../features/loginSlice";
@@ -79,7 +79,11 @@ const Login = () => {
                         <input className="form-control" id="passwd" type="password" ref={passwd} />
                         <label htmlFor="passwd">Contraseña</label>
                     </div>
-                    <button className="btn btn-primary my-2" onClick={login}>Ingresar</button>
+                    <div className="text-center">
+                        <button className="btn btn-primary my-2 mx-2" onClick={login}>Ingresar</button>
+                        <Link to="/registro" className="btn btn-primary my-2 mx-2">Registrarse</Link>
+                    </div>
+
                 </div> 
             </div>
         </div>
