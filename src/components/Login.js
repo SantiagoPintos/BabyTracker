@@ -47,6 +47,7 @@ const Login = () => {
             if(data.codigo===200){
                 alert('Bienvenido');
                 distpatch(exitoso({id: data.id, token: data.token, estaLogueado: true}));
+                navigate('/');
             }
         })
         .catch(error => {
