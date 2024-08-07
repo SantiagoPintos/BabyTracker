@@ -1,13 +1,11 @@
 import { useRef, useEffect } from "react";
 import { useNavigate, Link } from 'react-router-dom'
 import { API_URL } from "../constants/constants";
-import { useDispatch } from "react-redux";
-import { exitoso } from "../features/loginSlice";
+import { loginExitoso } from "../utils/ManejadorDeLogin";
 
 const Login = () => {
     const usuario = useRef('');
     const passwd = useRef('');
-    const distpatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -45,8 +43,8 @@ const Login = () => {
                 alert(data.mensaje);
             }
             if(data.codigo===200){
+                loginExitoso(data.id, data.apiKey);
                 alert('Bienvenido');
-                distpatch(exitoso({id: data.id, token: data.token, estaLogueado: true}));
                 navigate('/');
             }
         })
