@@ -14,10 +14,9 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path='/' element={<Cuerpo />}>
             <Route path='/registro' element={<Registro />} />
             <Route path='/login' element={<Login />} />
-          </Route>
+            <Route path='/' element={<Cuerpo />} />
         </Routes>
       </BrowserRouter>
     </Provider>
