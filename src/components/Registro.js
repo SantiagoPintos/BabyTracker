@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom'
 import { API_URL } from "../constants/constants";
 
 const Registro = () => {
+    const navigate = useNavigate();
     //para select(s)
     const [ departamentos, setDepartamentos ] = useState([]);
     const [ ciudades, setCiudades ] = useState([]);
@@ -12,19 +14,23 @@ const Registro = () => {
     const [ departamento, setDepartamento ] = useState(undefined);
 
     useEffect(() => {
-        fetch(API_URL+'departamentos.php')
-        .then(r => r.json())
-        .then(data => {
-            if(data.codigo === 200){
-                setDepartamentos(data.departamentos);
-            } else {
-                Promise.reject({error: data.codigo, msj: "Algo salió mal"});
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            alert('No se pudieron cargar los departamentos');
-        })
+        if(localStorage.getItem('token') !== null){
+            navigate('/');
+        } else {
+            fetch(API_URL+'departamentos.php')
+            .then(r => r.json())
+            .then(data => {
+                if(data.codigo === 200){
+                    setDepartamentos(data.departamentos);
+                } else {
+                    Promise.reject({error: data.codigo, msj: "Algo salió mal"});
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                alert('No se pudieron cargar los departamentos');
+            })
+        }
     }, []);
 
     const cargarCiudades = (event) => {
