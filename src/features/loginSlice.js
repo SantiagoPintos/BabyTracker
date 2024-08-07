@@ -12,13 +12,12 @@ export const loginSlice = createSlice({
     reducers: {
         exitoso: (state, action) => {
             //'payload' se usa por convencion
-            state.userId = action.payload.id;
-            state.token = action.payload.token;
+            state.userId = localStorage.setItem('userId', action.payload.id);
+            state.token = localStorage.setItem('token', action.payload.token);
             state.estaLogueado = true;
         },
         logout: state => {
-            state.userId = null;
-            state.token = null;
+            localStorage.clear();
             state.estaLogueado = false;
         }
     }
