@@ -8,3 +8,7 @@ export const loginExitoso = (id, apiKey) => {
 export const cerrarSesion = () => {
     localStorage.clear();
 };
+
+export const estaLogueado = () => {
+    return localStorage.getItem('token') !== null;
+};
