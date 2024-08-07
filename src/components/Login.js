@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom'
 import { API_URL } from "../constants/constants";
 import { useDispatch } from "react-redux";
 import { exitoso } from "../features/loginSlice";
@@ -7,6 +8,13 @@ const Login = () => {
     const usuario = useRef('');
     const passwd = useRef('');
     const distpatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(localStorage.getItem('token') !== null){
+            navigate('/');
+        }
+    } ,[]);
 
     const login = () => {
         const [ user, password ] = [ usuario.current.value, passwd.current.value ];
