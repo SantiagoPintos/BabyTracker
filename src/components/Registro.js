@@ -102,6 +102,7 @@ const Registro = () => {
                 localStorage.setItem('id', data.id);
             } else {
                 alert(data.mensaje);
+                navigate('/');
             }
         })
         .catch(error => {
