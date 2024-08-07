@@ -6,13 +6,13 @@ const Header = () => {
 
     return (
       <div className="container-fluid">
-          <header className="row mt-3">
+          <div className="row mt-3">
               <nav className="col-9">
               </nav>
               <div className="col-3 d-flex justify-content-end">
                   {estaLogueado ? <LogoutBoton /> : null}
               </div>
-          </header>
+          </div>
       </div>
     )
 }
