@@ -1,19 +1,17 @@
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../features/loginSlice";
+import { cerrarSesion } from "../utils/ManejadorDeLogin";
 
 const LogoutBoton = () => {
-    const distpatch = useDispatch();
     const navigate = useNavigate();
 
-    const cerrarSesion = () => {
+    const logOut = () => {
         alert('Sesión cerrada');
-        distpatch(logout());
+        cerrarSesion();
         navigate('/login');
     };
 
   return (
-    <button onClick={cerrarSesion} className="btn btn-danger">Cerrar sesión</button>
+    <button onClick={logOut} className="btn btn-danger">Cerrar sesión</button>
   )
 }
 
