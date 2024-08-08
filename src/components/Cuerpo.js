@@ -2,9 +2,10 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import Header from './Header'
 import { API_URL } from '../constants/constants'
 import { cargar } from './../features/categoriasSlice'
+import Header from './Header'
+import AgregarEvento from './AgregarEvento'
 
 const Cuerpo = () => {
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ const Cuerpo = () => {
     return (
       <div>
         <Header />
+        <AgregarEvento />
         Cuerpo
         <Outlet />
       </div>
