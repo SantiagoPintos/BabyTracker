@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
+import Header from './Header'
 
 const Cuerpo = () => {
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Cuerpo = () => {
     
     return (
       <div>
+        <Header />
         Cuerpo
         <Outlet />
       </div>
