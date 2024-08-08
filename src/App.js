@@ -9,7 +9,7 @@ import Header from './components/Header';
 import Cuerpo from './components/Cuerpo';
 
 function App() {
-  return (
+  return (  
     <Provider store={store}>
       <BrowserRouter>
         <Header />

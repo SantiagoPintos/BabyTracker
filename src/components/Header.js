@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux"
 import LogoutBoton from "./LogoutBoton"
+import { estaLogueado } from "../utils/ManejadorDeLogin";
 
 const Header = () => {
-    const estaLogueado = useSelector((state) => state.login.estaLogueado);
+    const logueado = estaLogueado();
 
     return (
       <div className="container-fluid">
@@ -10,7 +10,7 @@ const Header = () => {
               <nav className="col-9">
               </nav>
               <div className="col-3 d-flex justify-content-end">
-                  {estaLogueado ? <LogoutBoton /> : null}
+                  {logueado ? <LogoutBoton /> : null}
               </div>
           </div>
       </div>
