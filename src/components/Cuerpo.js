@@ -27,7 +27,7 @@ const Cuerpo = () => {
         })
         .then(response => response.json())
         .then(data => {
-          dispatch(cargar(data));
+          dispatch(cargar(data.categorias));
         })
         .catch((error) => {
           console.error('Error:', error);
