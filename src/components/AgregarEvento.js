@@ -16,8 +16,9 @@ const AgregarEvento = () => {
   };
 
   const agregarEvento = () => {
-    if(categoria === null || categoria === -1 || detalle.current.value === ''){
-      alert('Complete los datos');
+    const fechaActual = new Date().toISOString().split('T')[0];
+    if(categoria === null || categoria === -1 || detalle.current.value === '' || fecha.current.value === '' || new Date(fecha.current.value) > new Date(fechaActual)){
+      alert('Datos incorrectos');
       return;
     }
     const usuario = localStorage.getItem('token');
