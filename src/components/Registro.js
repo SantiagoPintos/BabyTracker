@@ -80,7 +80,6 @@ const Registro = () => {
             idCiudad: ciudad,
             idDepartamento: departamento
         };
-
         fetch(API_URL+'usuarios.php',{
             method: 'POST',
             headers: {
@@ -96,13 +95,15 @@ const Registro = () => {
             return Promise.reject({error: r.status, msj: "Algo salió mal"});
         })
         .then(data => {
+            console.log(data);
             if(data.codigo === 200){
                 alert(data.mensaje);
                 localStorage.setItem('token', data.apiKey);
                 localStorage.setItem('id', data.id);
+                navigate('/');
             } else {
                 alert(data.mensaje);
-                navigate('/');
+                navigate('/registro');
             }
         })
         .catch(error => {
