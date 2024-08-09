@@ -11,7 +11,7 @@ export const eventosSlice = createSlice({
         agregar: (state, action) => {
             state.eventos.push(action.payload);
         },
-        cargar: (state, action) => {
+        guardar: (state, action) => {
             state.eventos = action.payload;
         },
         limpiar: (state) => {
@@ -20,5 +20,5 @@ export const eventosSlice = createSlice({
     }
 });
 
-export  const { agregar, cargar, limpiar } = eventosSlice.actions;
+export  const { agregar, guardar, limpiar } = eventosSlice.actions;
 export default eventosSlice.reducer;
