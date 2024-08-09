@@ -3,8 +3,11 @@ import { API_URL } from "../constants/constants";
 import { useState, useRef } from "react";
 import { cerrarSesion } from '../utils/ManejadorDeLogin';
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { agregar } from "../features/eventosSlice";
 
 const AgregarEvento = () => {
+  const dispatch = useDispatch();
   let navigate = useNavigate();
   const categorias = useSelector(state => state.categorias.categorias);
   const [categoria, setCategoria] = useState(null);
@@ -46,6 +49,8 @@ const AgregarEvento = () => {
         alert(data.mensaje);
         detalle.current.value = '';
         fecha.current.value = '';
+        //se agrega evento al store para actualizar la lista de eventos de forma automática
+        dispatch(agregar(evento));
       } else {
         cerrarSesion();
         navigate('/login');
@@ -77,7 +82,7 @@ const AgregarEvento = () => {
           <label htmlFor="selectDpto">Categoría</label>
         </div>
         <div className="form-floating">
-          <input type="date" className="form-control" id="detalle" ref={fecha} />
+          <input type="datetime-local" className="form-control" id="detalle" ref={fecha} />
           <label htmlFor="nombre">Detalles</label>
         </div>
          <input className="btn btn-primary my-3" type="button" value="Agregar" onClick={agregarEvento}/>
