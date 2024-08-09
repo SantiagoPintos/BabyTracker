@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 
 const AgregarEvento = () => {
   const categorias = useSelector(state => state.categorias.categorias);
-  console.log(categorias);
   const [categoria, setCategoria] = useState(null);
   const detalle = useRef('');
   const fecha = useRef('');
