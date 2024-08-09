@@ -27,7 +27,7 @@ const AgregarEvento = () => {
     const id = localStorage.getItem('id');
     const evento = {
       idCategoria: categoria,
-      idUsuario: usuario,
+      idUsuario: id,
       detalle: detalle.current.value,
       fecha: fecha.current.value,
     };
