@@ -44,6 +44,8 @@ const AgregarEvento = () => {
     .then(data => {
       if(data.codigo === 200){
         alert(data.mensaje);
+        detalle.current.value = '';
+        fecha.current.value = '';
       } else {
         cerrarSesion();
         navigate('/login');
