@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { API_URL } from '../constants/constants'
@@ -11,6 +11,7 @@ import { cerrarSesion } from '../utils/ManejadorDeLogin'
 const Cuerpo = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [ tokenValido, setTokenValido ] = useState(true);
 
     const user = localStorage.getItem('token');
     const id = localStorage.getItem('id');
@@ -32,6 +33,7 @@ const Cuerpo = () => {
           if(data.codigo === 401){
             //cubre caso en que token no es válido
             cerrarSesion();
+            setTokenValido(false);
             navigate('/login');
           } else {
             dispatch(cargar(data.categorias));
@@ -44,10 +46,18 @@ const Cuerpo = () => {
     
     return (
       <div>
-        <Header />
-        <AgregarEvento />
-        Cuerpo
-        <Outlet />
+        { 
+          tokenValido ? 
+          <div>
+            <Header />
+            <AgregarEvento />
+            <Outlet />
+          </div> 
+          : 
+          <div>
+            <p>Expiró la sesión, redirigiendo al login...</p>
+          </div>
+        }
       </div>
     )
 }

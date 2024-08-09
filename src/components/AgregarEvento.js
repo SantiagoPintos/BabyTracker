@@ -67,7 +67,7 @@ const AgregarEvento = () => {
           <select className="form-select" id="selectDepto" onChange={cargarCategorias}>
               <option key={-1} value={-1}>Seleccione...</option>
               {
-                categorias !== null && categorias !== undefined && categorias.map(categoria => (
+                categorias.map(categoria => (
                   <option key={categoria.id} value={categoria.id}>{categoria.tipo}</option>
                 ))
               }
