@@ -1,38 +1,93 @@
-import { useState, useEffect } from 'react';
-import { API_URL } from '../constants/constants';
-import AgregarEvento from './AgregarEvento';
+import React from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate, Outlet } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { API_URL } from '../constants/constants'
+import { cargar } from '../features/categoriasSlice'
+import { guardar } from '../features/eventosSlice'
+import { cerrarSesion } from '../utils/ManejadorDeLogin'
+import Header from './Header'
+import AgregarEvento from './AgregarEvento'
+import ListarEventos from './ListarEventos'
 
 const Dashboard = () => {
-  const [ categorias, setCategorias ] = useState([]);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [ tokenValido, setTokenValido ] = useState(true);
 
-  useEffect(() => {
-    fetch(API_URL+'categorias.php',{
-        method: 'GET',
-        headers: {
+    const user = localStorage.getItem('token');
+    const id = localStorage.getItem('id');
+
+    useEffect(() => {
+        if(user === null || id === null){
+            navigate('/login');
+        }
+        //carga categorías
+        fetch(API_URL+'categorias.php', {
+          method: 'GET',
+          headers: {
             'Content-Type': 'application/json',
-            'apiKey': localStorage.getItem('token'),
-            'iduser': localStorage.getItem('id')
-        }
-    })
-    .then(r => {
-        if(r.status === 200){
-            return r.json();
-        }
-        return Promise.reject({error: r.status, msj: "Algo salió mal"});
-    })
-    .then(data => {
-        setCategorias(data);
-    })
-    .catch(error => {
-        console.error(error);
-    });
-  }, []);
+            'apiKey': user,
+            'iduser': id,
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if(data.codigo === 401){
+            //cubre caso en que token no es válido
+            cerrarSesion();
+            setTokenValido(false);
+            navigate('/login');
+          } else {
+            dispatch(cargar(data.categorias));
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
 
-  return (
-    <div>
-      <AgregarEvento categorias={categorias} />
-    </div>
-  )
+        //almacena los eventos del usuario
+        fetch(`${API_URL}/eventos.php?idUsuario=${id}`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'apiKey': user,
+              'iduser': id,
+          }
+          })
+          .then(response => response.json())
+          .then(data => {
+              if(data.codigo === 401){
+                  //cubre caso en que token no es válido
+                  cerrarSesion();
+                  navigate('/login');
+              } else {
+                  dispatch(guardar(data.eventos));
+              }
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+      });
+
+    }, []);
+    
+    return (
+      <div>
+        { 
+          tokenValido ? 
+          <div>
+            <Header />
+            <AgregarEvento />
+            <ListarEventos />
+            <Outlet />
+          </div> 
+          : 
+          <div>
+            <p>Expiró la sesión, redirigiendo al login...</p>
+          </div>
+        }
+      </div>
+    )
 }
 
-export default Dashboard;
+export default Dashboard
