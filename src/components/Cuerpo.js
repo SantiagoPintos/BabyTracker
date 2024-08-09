@@ -6,6 +6,7 @@ import { API_URL } from '../constants/constants'
 import { cargar } from './../features/categoriasSlice'
 import Header from './Header'
 import AgregarEvento from './AgregarEvento'
+import { cerrarSesion } from '../utils/ManejadorDeLogin'
 
 const Cuerpo = () => {
     const navigate = useNavigate();
@@ -28,7 +29,13 @@ const Cuerpo = () => {
         })
         .then(response => response.json())
         .then(data => {
-          dispatch(cargar(data.categorias));
+          if(data.codigo === 401){
+            //cubre caso en que token no es válido
+            cerrarSesion();
+            navigate('/login');
+          } else {
+            dispatch(cargar(data.categorias));
+          }
         })
         .catch((error) => {
           console.error('Error:', error);

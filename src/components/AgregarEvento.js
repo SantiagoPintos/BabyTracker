@@ -1,8 +1,11 @@
 import { useSelector } from "react-redux";
 import { API_URL } from "../constants/constants";
 import { useState, useRef } from "react";
+import { cerrarSesion } from '../utils/ManejadorDeLogin';
+import { useNavigate } from "react-router-dom";
 
 const AgregarEvento = () => {
+  let navigate = useNavigate();
   const categorias = useSelector(state => state.categorias.categorias);
   const [categoria, setCategoria] = useState(null);
   const detalle = useRef('');
@@ -42,6 +45,8 @@ const AgregarEvento = () => {
       if(data.codigo === 200){
         alert(data.mensaje);
       } else {
+        cerrarSesion();
+        navigate('/login');
         alert(data.mensaje);
       }
     })
@@ -62,7 +67,7 @@ const AgregarEvento = () => {
           <select className="form-select" id="selectDepto" onChange={cargarCategorias}>
               <option key={-1} value={-1}>Seleccione...</option>
               {
-                categorias !== null && categorias.map(categoria => (
+                categorias !== null && categorias !== undefined && categorias.map(categoria => (
                   <option key={categoria.id} value={categoria.id}>{categoria.tipo}</option>
                 ))
               }
