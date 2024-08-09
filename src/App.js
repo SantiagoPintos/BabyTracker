@@ -5,7 +5,7 @@ import { store } from './store/store';
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from './components/Login';
 import Registro from './components/Registro';
-import Cuerpo from './components/Cuerpo';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (  
@@ -14,7 +14,7 @@ function App() {
         <Routes>
             <Route path='/registro' element={<Registro />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/' element={<Cuerpo />} />
+            <Route path='/' element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </Provider>
