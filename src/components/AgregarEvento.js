@@ -5,6 +5,7 @@ import { cerrarSesion } from '../utils/ManejadorDeLogin';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { agregar } from "../features/eventosSlice";
+import { TextField, MenuItem, Button, Box, Typography, Container } from '@mui/material';
 
 const AgregarEvento = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const AgregarEvento = () => {
 
   const agregarEvento = () => {
     const fechaActual = new Date().toISOString().split('T')[0];
-    if(categoria === null || categoria === -1 || detalle.current.value === '' || fecha.current.value === '' || new Date(fecha.current.value) > new Date(fechaActual)){
+    if(categoria === null || categoria === -1 || detalle.current.value === '' || fecha.current.value === '' || new Date(fecha.current.value).toISOString().split('T')[0] > new Date(fechaActual)){
       alert('Datos incorrectos');
       return;
     }
