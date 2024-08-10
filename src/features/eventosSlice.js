@@ -14,11 +14,14 @@ export const eventosSlice = createSlice({
         guardar: (state, action) => {
             state.eventos = action.payload;
         },
+        eliminar: (state, action) => {
+            state.eventos = state.eventos.filter(evento => evento.id !== action.payload);
+        },
         limpiar: (state) => {
             state.eventos = [];
         }
     }
 });
 
-export  const { agregar, guardar, limpiar } = eventosSlice.actions;
+export  const { agregar, guardar, limpiar,eliminar } = eventosSlice.actions;
 export default eventosSlice.reducer;
