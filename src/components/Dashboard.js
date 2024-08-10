@@ -10,6 +10,7 @@ import Header from './Header'
 import AgregarEvento from './AgregarEvento'
 import ListarEventos from './ListarEventos'
 import InformeEventos from './InformeEventos'
+import Analisis from './Analisis'
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -90,6 +91,11 @@ const Dashboard = () => {
               <div className="row">
                 <div className="col-md-6">
                   <InformeEventos />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <Analisis />
                 </div>
               </div>
             </div>
