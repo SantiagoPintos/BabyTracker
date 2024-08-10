@@ -7,18 +7,19 @@ const ListarEventos = () => {
     const eventos = useSelector(state => state.eventos.eventos);
     const [ pestanaActiva, setPestanaActiva ] = useState('hoy'); 
     const hoy = new Date().toISOString().slice(0, 10);
-    const eventosHoy = eventos.filter(evento => {
-        const fechaEvento = evento.fecha.slice(0, 10);
-        return fechaEvento === hoy;
-    });
-    const restoEventos = eventos.filter(evento => {
-        const fechaEvento = evento.fecha.slice(0, 10);
-        return fechaEvento !== hoy;
+    const eventosHoy = [];
+    const restoEventos = [];
+    eventos.forEach(evento => {
+        if(evento.fecha.slice(0, 10) === hoy){
+            eventosHoy.push(evento);
+        } else {
+            restoEventos.push(evento);
+        }
     });
 
     return (
         <div>
-        <Typography className="text-center" variant="h2">Eventos</Typography>
+        <Typography className="text-center" variant="h4">Eventos</Typography>
         <Tabs 
             value={pestanaActiva} 
             onChange={(event, newValue) => setPestanaActiva(newValue)}
