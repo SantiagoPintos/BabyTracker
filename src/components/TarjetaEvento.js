@@ -4,7 +4,13 @@ import { Card, CardContent, CardMedia, Typography, Box, Button } from '@mui/mate
 
 const TarjetaEvento = ({evento}) => {
     const categorias = useSelector(state => state.categorias.categorias);
-    const categoria = categorias.find(categoria => categoria.id === evento.idCategoria);
+    /*
+        Se usa "==" en vez de "===" de forma INTENCIONAL
+        El id que viene de la api es string, pero el id almacenado
+        por el globalState de Redux es un nro, por lo tanto la comparacion
+        debe ser débil
+    */
+    const categoria = categorias.find(categoria => categoria.id == evento.idCategoria);
     //img es de 38x38px
     const imgUrl = `${IMG_API_URL}${categoria.imagen}.png`;
     return (
