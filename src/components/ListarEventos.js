@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { Tabs, Tab, Box, Typography } from '@mui/material';
+import { Paper, Tabs, Tab, Box, Typography } from '@mui/material';
 import TarjetaEvento from "./TarjetaEvento";
 
 const ListarEventos = () => {
@@ -18,8 +18,8 @@ const ListarEventos = () => {
     });
 
     return (
-        <div>
-        <Typography className="text-center" variant="h4">Eventos</Typography>
+        <Paper elevation={2} sx={{mt:2}} >
+        <Typography className="text-center" variant="h4" sx={{pt:2}}>Eventos</Typography>
         <Tabs 
             value={pestanaActiva} 
             onChange={(event, newValue) => setPestanaActiva(newValue)}
@@ -29,7 +29,7 @@ const ListarEventos = () => {
             <Tab value="hoy" label="Hoy" />
             <Tab value="noHoy" label="Resto de eventos" />
         </Tabs>
-        <Box>
+        <Box sx={{py:1}}>
             {pestanaActiva === 'hoy' && (
                 eventosHoy.length > 0 ? (
                     eventosHoy.map(evento => (
@@ -49,7 +49,7 @@ const ListarEventos = () => {
                 )
             )}
         </Box>
-    </div>
+    </Paper>
     )
 }
 
