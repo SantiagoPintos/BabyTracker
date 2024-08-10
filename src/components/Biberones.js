@@ -1,17 +1,19 @@
-import { Paper, Box, Typography } from '@mui/material';
+import { Avatar, Paper, Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { IMG_API_URL } from '../constants/constants';
 
-//en caso de que no se reciban biberones, se asigna un array vacío para evitar errores
-const Biberones = ({ biberones = [] }) => {
+//en caso de que no se reciban props, se asigna un array vacío para evitar errores
+const Biberones = ({imagen, elemento = [], nombre=''}) => {
     const [hayBiberonesHoy, setHayBiberonesHoy] = useState(false);
     const [tiempoDesdeUltimoBiberon, setTiempoDesdeUltimoBiberon] = useState('');
     const [cantBiberonesHoy, setCantBiberonesHoy] = useState(0);
+    const imgUrl = `${IMG_API_URL}${imagen}.png`;
 
     //se hace dentro de useEffect para evitar loop infinito, preguntar por esto
     useEffect(() => {
         const hoy = new Date().toISOString().slice(0, 10);
         //solo se busca coincidencia por fecha, por eso el slice
-        const biberonesHoy = biberones.filter(biberon => biberon.fecha.slice(0, 10) === hoy);
+        const biberonesHoy = elemento.filter(biberon => biberon.fecha.slice(0, 10) === hoy);
         setCantBiberonesHoy(biberonesHoy.length);
 
         if (cantBiberonesHoy > 0) {
@@ -31,15 +33,16 @@ const Biberones = ({ biberones = [] }) => {
 
     return (
         <Box>
-            <Paper elevation={2} sx={{ p: 3, textAlign: 'center' }}>
-                {hayBiberonesHoy ? 
+            <Paper elevation={2} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
+                <Avatar alt={nombre} src={imgUrl} sx={{ width: 38, height: 38, marginRight: 2 }} />
+                {hayBiberonesHoy ? (
                     <Box>
-                        <Typography variant="h6">Biberones hoy: {biberones.filter(biberon => biberon.fecha.slice(0, 10) === new Date().toISOString().slice(0, 10)).length}</Typography>
-                        <Typography variant="body1">Tiempo desde el último biberón: {tiempoDesdeUltimoBiberon}</Typography>
+                        <Typography variant="h6">{nombre} hoy: {cantBiberonesHoy}</Typography>
+                        <Typography variant="body1">Tiempo desde el último: {tiempoDesdeUltimoBiberon}</Typography>
                     </Box>
-                    : 
-                    <Typography variant="body1">No hubo biberones hoy</Typography>
-                }
+                ) : (
+                    <Typography variant="body1">No hubo {nombre} hoy</Typography>
+                )}
             </Paper>
         </Box>
     );
