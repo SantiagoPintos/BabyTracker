@@ -14,7 +14,7 @@ const TarjetaEvento = ({evento}) => {
     //img es de 38x38px
     const imgUrl = `${IMG_API_URL}${categoria.imagen}.png`;
     return (
-        <Card sx={{ display: 'flex', mb: 2 }}>
+        <Card sx={{ display: 'flex', m: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
             <CardMedia
               component="img"
