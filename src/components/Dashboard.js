@@ -77,8 +77,16 @@ const Dashboard = () => {
           tokenValido ? 
           <div>
             <Header />
-            <AgregarEvento />
-            <ListarEventos />
+            <div className="container">
+              <div className="row">
+                <div className="col-md-6">
+                  <AgregarEvento />
+                </div>
+                <div className="col-md-6">
+                  <ListarEventos />
+                </div>
+              </div>
+            </div>
             <Outlet />
           </div> 
           : 
