@@ -9,6 +9,7 @@ import { cerrarSesion } from '../utils/ManejadorDeLogin'
 import Header from './Header'
 import AgregarEvento from './AgregarEvento'
 import ListarEventos from './ListarEventos'
+import InformeEventos from './InformeEventos'
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -77,13 +78,18 @@ const Dashboard = () => {
           tokenValido ? 
           <div>
             <Header />
-            <div className="container">
+            <div className="container mt-5">
               <div className="row">
                 <div className="col-md-6">
                   <AgregarEvento />
                 </div>
                 <div className="col-md-6">
                   <ListarEventos />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <InformeEventos />
                 </div>
               </div>
             </div>
