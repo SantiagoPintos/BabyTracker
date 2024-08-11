@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import Biberones from "./Biberones"
+import Biberones from "./TarjetaInformeEventosHoy"
 
 
 const InformeEventos = () => {
