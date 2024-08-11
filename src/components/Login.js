@@ -45,9 +45,9 @@ const Login = () => {
         const [ user, password ] = [ usuario.current.value, passwd.current.value ];
         if(!validarDatos(user, password)){
             setCargando(false);
-                setSnackbar(true);
-                setSnackbarMensaje('Por favor, completa los campos');
-                setSeveridadDeAlert('error')
+            setSnackbar(true);
+            setSnackbarMensaje('Por favor, completa los campos');
+            setSeveridadDeAlert('error');
             return;
         }
 

@@ -1,9 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom'
 import { API_URL } from "../constants/constants";
+import { loginExitoso } from "../utils/ManejadorDeLogin";
+import { useDispatch } from 'react-redux';
+import { loguear } from "../features/logueadoSlice";
+import { Snackbar, Alert,  Backdrop, CircularProgress  } from "@mui/material";
 
 const Registro = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     //para select(s)
     const [ departamentos, setDepartamentos ] = useState([]);
     const [ ciudades, setCiudades ] = useState([]);
@@ -12,6 +17,23 @@ const Registro = () => {
     const passwd = useRef('');
     const [ ciudad, setCiudad ] = useState(undefined);
     const [ departamento, setDepartamento ] = useState(undefined);
+    const [ cargando, setCargando ] = useState(false);
+    const [ snackbar, setSnackbar ] = useState(false);
+    const [ snackbarMensaje, setSnackbarMensaje ] = useState('');
+    //se usa para controlar el color del alert que se muestra dentro del snackbar
+    //'error': rojo
+    //'success': verde
+    const [ severidadDeAlert, setSeveridadDeAlert ] = useState(null);
+    const cerrarAnimacion = () => {
+        setCargando(false);
+    };
+      //reason y clickaway provienen de documentación de MUI
+    const cerrarSnackbar = (event, reason) => {
+        if(reason === 'clickaway'){
+            return;
+        }
+        setSnackbar(false);
+    };
 
     useEffect(() => {
         if(localStorage.getItem('token') !== null){
@@ -69,8 +91,12 @@ const Registro = () => {
     };
 
     const registrar = () => {
+        setCargando(true);
         if(!validarDatos(usuario.current.value, passwd.current.value, departamento, ciudad)){
-            alert('Por favor, completa los campos');
+            setCargando(false);
+            setSnackbar(true);
+            setSnackbarMensaje('Por favor, completa los campos');
+            setSeveridadDeAlert('error');
             return;
         }
 
@@ -97,17 +123,30 @@ const Registro = () => {
         .then(data => {
             console.log(data);
             if(data.codigo === 200){
-                alert(data.mensaje);
-                localStorage.setItem('token', data.apiKey);
-                localStorage.setItem('id', data.id);
-                navigate('/');
+                setCargando(false);
+                setSnackbar(true);
+                setSnackbarMensaje('Bienvenido!');
+                setSeveridadDeAlert('success')
+                loginExitoso(data.id, data.apiKey);
+                dispatch(loguear());
+                //el delay es para evitar que se haga la redirección antes de que se muestre 
+                //el snackbar con el mensaje de bienvenida
+                setTimeout(() => {
+                    navigate('/');
+                }, 1000);
             } else {
-                alert(data.mensaje);
-                navigate('/registro');
+                //api retorna 409 cuando los datos son incorrectos
+                setCargando(false);
+                setSnackbar(true);
+                setSnackbarMensaje(data.mensaje);
+                setSeveridadDeAlert('error');
+                return;
             }
         })
         .catch(error => {
-            alert(error.msj);
+            setCargando(false);
+            setSnackbar(true);
+            setSeveridadDeAlert('error');
             console.error(error);
         });
     };
@@ -143,7 +182,30 @@ const Registro = () => {
                         </select>
                         <label htmlFor="selectCiudad">Ciudad</label>
                     </div>
-                    <input className="btn btn-primary my-3" type="button" value="Registrarse" onClick={registrar}/>
+                    <div className="text-center">
+                        <input className="btn btn-primary my-3" type="button" value="Registrarse" onClick={registrar}/>
+                    </div>
+                    <Backdrop
+                      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                      open={cargando}
+                      onClick={cerrarAnimacion}
+                    >
+                      <CircularProgress color="inherit" />
+                    </Backdrop>
+                    <Snackbar
+                      open={snackbar}
+                      autoHideDuration={6000}
+                      onClose={cerrarSnackbar}
+                    >
+                      <Alert
+                        onClose={cerrarSnackbar}
+                        severity={severidadDeAlert}
+                        variant="filled"
+                        sx={{ width: '100%' }}
+                      >
+                        {snackbarMensaje}
+                      </Alert>
+                    </Snackbar>
                 </div>
             </div>
         </div>
