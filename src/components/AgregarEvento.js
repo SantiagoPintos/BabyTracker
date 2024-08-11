@@ -56,8 +56,12 @@ const AgregarEvento = () => {
     })
     .then(response => response.json())
     .then(data => {
+      console.log(data);
       if(data.codigo === 200){
         alert(data.mensaje);
+        //api responde la id del evento así que agrega al estado global para evitar errores al renderizar un evento sin id
+        //y eliminar antes de que se ejecute el useEffect con el fetch de eventoss
+        evento.id = data.idEvento;
         detalle.current.value = '';
         fecha.current.value = '';
         //se agrega evento al store para actualizar la lista de eventos de forma automática
