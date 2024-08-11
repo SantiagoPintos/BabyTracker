@@ -6,11 +6,11 @@ import { API_URL } from '../constants/constants'
 import { cargar } from '../features/categoriasSlice'
 import { guardar } from '../features/eventosSlice'
 import { cerrarSesion } from '../utils/ManejadorDeLogin'
-import Header from './Header'
 import AgregarEvento from './AgregarEvento'
 import ListarEventos from './ListarEventos'
 import InformeEventos from './InformeEventos'
-import Analisis from './Analisis'
+import Analisis from './Analisis';
+import { loguear } from "../features/logueadoSlice";
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -21,6 +21,7 @@ const Dashboard = () => {
     const id = localStorage.getItem('id');
 
     useEffect(() => {
+        dispatch(loguear());
         if(user === null || id === null){
             navigate('/login');
         }
@@ -78,7 +79,6 @@ const Dashboard = () => {
       { 
         tokenValido ? 
         <div>
-          <Header />
           <div className="container mt-5">
             <div className="row">
               <div className="col-md-6 mb-3">

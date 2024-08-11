@@ -2,15 +2,19 @@ import { useRef, useEffect } from "react";
 import { useNavigate, Link } from 'react-router-dom'
 import { API_URL } from "../constants/constants";
 import { loginExitoso } from "../utils/ManejadorDeLogin";
+import { useDispatch } from 'react-redux';
+import { loguear } from "../features/logueadoSlice";
 
 const Login = () => {
     const usuario = useRef('');
     const passwd = useRef('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if(localStorage.getItem('token') !== null){
             navigate('/');
+            dispatch(loguear());
         }
     } ,[]);
 
@@ -44,6 +48,7 @@ const Login = () => {
             }
             if(data.codigo===200){
                 loginExitoso(data.id, data.apiKey);
+                dispatch(loguear());
                 alert('Bienvenido');
                 navigate('/');
             }
