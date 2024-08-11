@@ -1,15 +1,26 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useNavigate, Link } from 'react-router-dom'
 import { API_URL } from "../constants/constants";
 import { loginExitoso } from "../utils/ManejadorDeLogin";
 import { useDispatch } from 'react-redux';
 import { loguear } from "../features/logueadoSlice";
+import { Snackbar, Alert,  Backdrop, CircularProgress  } from "@mui/material";
 
 const Login = () => {
     const usuario = useRef('');
     const passwd = useRef('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    //para animación de componente backdrop y snackbar: 
+    //https://mui.com/material-ui/react-backdrop/#example
+    //https://mui.com/material-ui/react-backdrop/#example
+    const [ cargando, setCargando ] = useState(false);
+    const [ snackbar, setSnackbar ] = useState(false);
+    const [ snackbarMensaje, setSnackbarMensaje ] = useState('');
+    //se usa para controlar el color del alert que se muestra dentro del snackbar
+    //'error': rojo
+    //'success': verde
+    const [ severidadDeAlert, setSeveridadDeAlert ] = useState(null);
 
     useEffect(() => {
         if(localStorage.getItem('token') !== null){
@@ -18,10 +29,25 @@ const Login = () => {
         }
     } ,[]);
 
+    const cerrarAnimacion = () => {
+        setCargando(false);
+    };
+      //reason y clickaway provienen de documentación de MUI
+    const cerrarSnackbar = (event, reason) => {
+        if(reason === 'clickaway'){
+            return;
+        }
+        setSnackbar(false);
+    };
+
     const login = () => {
+        setCargando(true);
         const [ user, password ] = [ usuario.current.value, passwd.current.value ];
         if(!validarDatos(user, password)){
-            alert('Por favor, completa los campos');
+            setCargando(false);
+                setSnackbar(true);
+                setSnackbarMensaje('Por favor, completa los campos');
+                setSeveridadDeAlert('error')
             return;
         }
 
@@ -44,17 +70,37 @@ const Login = () => {
         .then(data => {
             if(data.codigo===409){
                 //api retorna 409 cuando los datos son incorrectos
-                alert(data.mensaje);
+                setCargando(false);
+                setSnackbar(true);
+                setSnackbarMensaje(data.mensaje);
+                setSeveridadDeAlert('error');
+                return;
             }
             if(data.codigo===200){
+                setCargando(false);
+                setSnackbar(true);
+                setSnackbarMensaje('Bienvenido!');
+                setSeveridadDeAlert('success')
                 loginExitoso(data.id, data.apiKey);
                 dispatch(loguear());
-                alert('Bienvenido');
-                navigate('/');
+                //el delay es para evitar que se haga la redirección antes de que se muestre 
+                //el snackbar con el mensaje de bienvenida
+                setTimeout(() => {
+                    navigate('/');
+                }, 1000);
+            } else {
+                setCargando(false);
+                setSnackbar(true);
+                setSnackbarMensaje('Algo salió mal');
+                setSeveridadDeAlert('error') 
             }
+
         })
         .catch(error => {
             console.error(error);
+            setCargando(false);
+            setSnackbar(true);
+            setSeveridadDeAlert('error');
         });
     };
 
@@ -86,6 +132,27 @@ const Login = () => {
                         <button className="btn btn-primary my-2 mx-2" onClick={login}>Ingresar</button>
                         <Link to="/registro" className="btn btn-primary my-2 mx-2">Registrarse</Link>
                     </div>
+                    <Backdrop
+                      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                      open={cargando}
+                      onClick={cerrarAnimacion}
+                    >
+                      <CircularProgress color="inherit" />
+                    </Backdrop>
+                    <Snackbar
+                      open={snackbar}
+                      autoHideDuration={6000}
+                      onClose={cerrarSnackbar}
+                    >
+                      <Alert
+                        onClose={cerrarSnackbar}
+                        severity={severidadDeAlert}
+                        variant="filled"
+                        sx={{ width: '100%' }}
+                      >
+                        {snackbarMensaje}
+                      </Alert>
+                    </Snackbar>
 
                 </div> 
             </div>
