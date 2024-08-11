@@ -5,7 +5,7 @@ import { cerrarSesion } from '../utils/ManejadorDeLogin';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { agregar } from "../features/eventosSlice";
-import { TextField, MenuItem, Button, Box, Typography, Container } from '@mui/material';
+import { TextField, MenuItem, Button, Box, Typography, Alert, Snackbar } from '@mui/material';
 
 const AgregarEvento = () => {
   const dispatch = useDispatch();
@@ -14,11 +14,16 @@ const AgregarEvento = () => {
   const [categoria, setCategoria] = useState(null);
   const detalle = useRef('');
   const fecha = useRef('');
+  const [ alerta, setAlerta ] = useState(false);
 
   const cargarCategorias = (event) => {
     const idCategoria = event.target.value;
     if(idCategoria === -1) return;
     setCategoria(idCategoria);
+  };
+
+  const cerrarAlert = () => {
+    setAlerta(false);
   };
 
   const agregarEvento = () => {
@@ -34,7 +39,7 @@ const AgregarEvento = () => {
     }
     const fechaActual = new Date().toISOString().split('T')[0];
     if(categoria === null || categoria === -1 || detalle.current.value === '' || new Date(fecha.current.value).toISOString().split('T')[0] > new Date(fechaActual)){
-      alert('Datos incorrectos');
+      setAlerta(true);
       return;
     }
     const usuario = localStorage.getItem('token');
@@ -78,31 +83,82 @@ const AgregarEvento = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row justify-content-center">
-        <h2>Agregar nuevo evento</h2>
-        <div className="form-floating">
-          <input type="text" className="form-control" id="detalle" ref={detalle} />
-          <label htmlFor="nombre">Detalles</label>
-        </div>
-        <div className="form-floating my-3">
-          <select className="form-select" id="selectDepto" onChange={cargarCategorias}>
-              <option key={-1} value={-1}>Seleccione...</option>
-              {
-                categorias.map(categoria => (
-                  <option key={categoria.id} value={categoria.id}>{categoria.tipo}</option>
-                ))
-              }
-          </select>
-          <label htmlFor="selectDpto">Categoría</label>
-        </div>
-        <div className="form-floating">
-          <input type="datetime-local" className="form-control" id="detalle" ref={fecha} />
-          <label htmlFor="nombre">Detalles</label>
-        </div>
-         <input className="btn btn-primary my-3" type="button" value="Agregar" onClick={agregarEvento}/>
-      </div>
-    </div>
+    <Box sx={{ p: 2 }}>
+      <Typography variant="h4" align="center" gutterBottom>Registrar nuevo evento</Typography>
+      <Box sx={{ mb: 2 }}>
+        <TextField
+          label="Detalles"
+          variant="outlined"
+          fullWidth
+          inputRef={detalle}
+        />
+      </Box>
+      <Box sx={{ mb: 2 }}>
+        {/*
+          TODO: si se usa directamente el componente Select combinado con Label 
+          el primero no no respeta padding ni márgenes por algúna razón random,
+          mientras tanto se usa TextField
+        */}
+        <TextField
+          select
+          label="Categoría"
+          variant="outlined"
+          fullWidth
+          onChange={cargarCategorias}
+        >
+          <MenuItem value={-1}>Seleccione...</MenuItem>
+          {categorias.map((categoria) => (
+            <MenuItem key={categoria.id} value={categoria.id}>
+              {categoria.tipo}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Box>
+      <Box sx={{ mb: 2 }}>
+        <TextField
+          label="Fecha y hora"
+          type="datetime-local"
+          variant="outlined"
+          fullWidth
+          /* Se usa shrink para evitar que dd/mm/aa se superponga con el label */
+          InputLabelProps={{
+            shrink: true,
+          }}
+          inputRef={fecha}
+        />
+      </Box>
+      <Box sx={{ textAlign: 'center' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={agregarEvento}
+        >
+          Agregar
+        </Button>
+      </Box>
+      {alerta &&
+      /* Se usa alert dentro de Snacbar para que la posición no dependa del contenedor padre
+        así se puede mostrar en cualquier parte de la pantalla
+        
+        Falta personalizar mensaje según dato faltante!!!!!
+      */
+        <Snackbar
+        open={alerta}
+        autoHideDuration={3000}
+        onClose={cerrarAlert}
+        >
+        <Alert
+          severity="error"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Datos de evento incompletos
+        </Alert>
+      </Snackbar>
+      }
+
+  
+    </Box>
   )
 };
 
