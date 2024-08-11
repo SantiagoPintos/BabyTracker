@@ -4,7 +4,6 @@ import { IMG_API_URL } from '../constants/constants';
 
 //en caso de que no se reciban props, se asigna un array vacío para evitar errores
 const TarjetaInformeEventosHoy = ({imagen, elemento = [], nombre=''}) => {
-    console.log('elemento', elemento);
     const [hayEventosHoy, setHayEventosHoy] = useState(false);
     const [tiempoDesdeUltimoEvento, setTiempoDesdeUltimoEvento] = useState('');
     const [cantEventosHoy, setCantEventosHoy] = useState(0);
@@ -15,7 +14,6 @@ const TarjetaInformeEventosHoy = ({imagen, elemento = [], nombre=''}) => {
         const hoy = new Date().toISOString().slice(0, 10);
         //solo se busca coincidencia por fecha, por eso el slice
         const eventosHoy = elemento.filter(evento => evento.fecha.slice(0, 10) === hoy);
-        console.log('eventosHoy', eventosHoy);
         setCantEventosHoy(eventosHoy.length);
 
         if (cantEventosHoy > 0) {
