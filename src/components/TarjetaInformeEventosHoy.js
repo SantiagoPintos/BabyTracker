@@ -13,7 +13,6 @@ const TarjetaInformeEventosHoy = ({imagen, elemento = [], nombre=''}) => {
     //se hace dentro de useEffect para evitar loop infinito, preguntar por esto
     useEffect(() => {
         const hoy = new Date().toISOString().slice(0, 10);
-        console.log('hoy', hoy);
         //solo se busca coincidencia por fecha, por eso el slice
         const eventosHoy = elemento.filter(evento => evento.fecha.slice(0, 10) === hoy);
         console.log('eventosHoy', eventosHoy);
