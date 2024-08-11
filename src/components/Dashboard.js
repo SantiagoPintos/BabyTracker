@@ -75,38 +75,36 @@ const Dashboard = () => {
     
     return (
       <div>
-        { 
-          tokenValido ? 
-          <div>
-            <Header />
-            <div className="container mt-5">
-              <div className="row">
-                <div className="col-md-6">
-                  <AgregarEvento />
-                </div>
-                <div className="col-md-6">
-                  <ListarEventos />
-                </div>
+      { 
+        tokenValido ? 
+        <div>
+          <Header />
+          <div className="container mt-5">
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <AgregarEvento />
               </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <InformeEventos />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <Analisis />
-                </div>
+              <div className="col-md-6 mb-3">
+                <ListarEventos />
               </div>
             </div>
-            <Outlet />
-          </div> 
-          : 
-          <div>
-            <p>Expiró la sesión, redirigiendo al login...</p>
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <InformeEventos />
+              </div>
+              <div className="col-md-6 mb-3">
+                <Analisis />
+              </div>
+            </div>
           </div>
-        }
-      </div>
+          <Outlet />
+        </div> 
+        : 
+        <div>
+          <p>Expiró la sesión, redirigiendo al login...</p>
+        </div>
+      }
+    </div>
     )
 }
 
