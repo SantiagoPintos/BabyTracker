@@ -26,12 +26,15 @@ const TarjetaEvento = ({evento}) => {
   */
   const categoria = categorias.find(categoria => categoria.id == evento.idCategoria);
   //img es de 38x38px
-  const imgUrl = `${IMG_API_URL}${categoria.imagen}.png`;
+  //se usa condicional porque a veces la api tarda en responder (creo), y esto provoca que categoria sea undefined, por lo tanto no se puede acceder a categoria.imagen
+  //de esta forma solo se renderiza la imagen cuando existen eventos
+  const imgUrl = categoria ? `${IMG_API_URL}${categoria.imagen}.png` : '';
 
   const cerrarAnimacion = () => {
     setCargando(false);
   };
 
+  //reason y clickaway provienen de documentación de MUI
   const cerrarSnackbar = (event, reason) => {
     if(reason == 'clickaway'){
       return;
