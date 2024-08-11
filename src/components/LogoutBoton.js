@@ -4,13 +4,14 @@ import { Button } from "@mui/material";
 import { useDispatch } from 'react-redux';
 import { desloguear } from "../features/logueadoSlice";
 
+
 const LogoutBoton = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    
 
     const logOut = () => {
         dispatch(desloguear());
-        alert('Sesión cerrada');
         cerrarSesion();
         navigate('/login');
     };
