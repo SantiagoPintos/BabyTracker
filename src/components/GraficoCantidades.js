@@ -23,7 +23,6 @@ ChartJS.register(
 const GraficoCantidades = () => {
     const categorias = useSelector(state => state.categorias.categorias);
     const eventos = useSelector(state => state.eventos.eventos);
-    console.log(eventos);
     const [datos, setDatos] = useState({ labels: [], datasets: [] });
 
     //actualiza el gráfico cada vez que cambian las categorías o los eventos
@@ -53,6 +52,7 @@ const GraficoCantidades = () => {
                 borderWidth: 1,
             }]
         });
+        //preguntar por esto: si se elimina el array de dependencias, el grafico no se renderiza
     }, [eventos, categorias]);
 
     return (
