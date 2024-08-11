@@ -40,11 +40,20 @@ const GraficoCantidades = () => {
                     },
                 }}
                 data={{
-                    labels: categorias.map(categoria => categoria.tipo),
+                    //.filter se utiliza para evitar crear una barra para las categorías que no tienen eventos
+                    // .map se utiliza para obtener el nombre de la categoría
+                    // categorias.filter(categoria => eventos.some(evento => evento.idCategoria === categoria.id)) filtra las categorías que tienen eventos
+                    // categorias.filter(categoria => eventos.some(evento => evento.idCategoria === categoria.id)).map(categoria => categoria.tipo) obtiene los nombres de las categorías que tienen eventos
+                    // categorias.filter(categoria => eventos.some(evento => evento.idCategoria === categoria.id)).map(categoria => eventos.filter(evento => evento.idCategoria === categoria.id).length) obtiene la cantidad de eventos de cada categoría
+                    labels: categorias
+                        .filter(categoria => eventos.some(evento => evento.idCategoria === categoria.id))
+                        .map(categoria => categoria.tipo),
                     datasets: [{
                         backgroundColor: "#9BD0F5",
                         label: 'Cantidad de eventos',
-                        data: categorias.map(categoria => eventos.filter(evento => evento.idCategoria === categoria.id).length),
+                        data: categorias
+                            .filter(categoria => eventos.some(evento => evento.idCategoria === categoria.id))
+                            .map(categoria => eventos.filter(evento => evento.idCategoria === categoria.id).length),
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 1,
                     }]
