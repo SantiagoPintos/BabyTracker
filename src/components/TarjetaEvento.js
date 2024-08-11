@@ -62,7 +62,7 @@ const TarjetaEvento = ({evento}) => {
         setSnackbar(true);
         setSnackbarMensaje('Evento eliminado!');
         setSeveridadDeAlert('success')
-        /* Este delay de 3s es para evitar el siguiente problema:
+        /* Este delay de 2s es para evitar el siguiente problema:
           Al momento de eliminar el evento, se envía la petición y actualiza el estado local,
           esto provoca que la lista de Tarjetas se actualice eliminando la tarjeta que contiene el elemento
           borrado, por lo tanto esta se destruye antes de mostrar el snackbar.
@@ -96,17 +96,19 @@ const TarjetaEvento = ({evento}) => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Box sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
-        <CardMedia
-          component="img"
-          image={imgUrl}
-          alt={`Imagen de categoria ${categoria.tipo}`}
-          sx={{ width: 38, height: 38 }}
-        />
-      </Box>
+      {categoria && (
+        <Box sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
+          <CardMedia
+            component="img"
+            image={imgUrl}
+            alt={`Imagen de categoria ${categoria.tipo}`}
+            sx={{ width: 38, height: 38 }}
+          />
+        </Box>
+      )}
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <CardContent sx={{ flex: '1 0 auto' }}>
-          <Typography variant="body1">{categoria.tipo}</Typography>
+          {categoria && <Typography variant="body1">{categoria.tipo}</Typography>}
           <Typography variant="body2">{evento.detalle}</Typography>
           <Typography variant="body2" color="textSecondary">
             {evento.fecha}

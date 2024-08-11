@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import Biberones from "./TarjetaInformeEventosHoy"
+import TarjetaInformeEventosHoy from "./TarjetaInformeEventosHoy"
 
 
 const InformeEventos = () => {
@@ -9,18 +9,19 @@ const InformeEventos = () => {
     const panales = eventos.filter(evento => evento.idCategoria == 33);
     return (
         <div>
-            <h2 className="text-center pb-3">Informe de eventos</h2>
-            <Biberones
-                imagen={5} 
-                elemento={biberones} 
-                nombre={'Biberones'} 
-            />
-            
-            <Biberones 
-                imagen={3} 
-                elemento={panales} 
-                nombre={'Pañales'} 
-            />
+            <h4 className="text-center pb-3">Informe de eventos diarios</h4>
+            <div>
+                <TarjetaInformeEventosHoy
+                    imagen={5} 
+                    elemento={biberones} 
+                    nombre={'Biberones'}
+                />
+                <TarjetaInformeEventosHoy 
+                    imagen={3} 
+                    elemento={panales} 
+                    nombre={'Pañales'} 
+                />
+            </div>
         </div>
     )
 }

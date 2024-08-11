@@ -1,20 +1,21 @@
 import { useSelector } from "react-redux";
 import { API_URL } from "../constants/constants";
 import { useState, useRef } from "react";
-import { cerrarSesion } from '../utils/ManejadorDeLogin';
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { agregar } from "../features/eventosSlice";
-import { TextField, MenuItem, Button, Box, Typography, Alert, Snackbar } from '@mui/material';
+import { Box, Alert, Snackbar, Backdrop, CircularProgress } from '@mui/material';
 
 const AgregarEvento = () => {
   const dispatch = useDispatch();
-  let navigate = useNavigate();
   const categorias = useSelector(state => state.categorias.categorias);
-  const [categoria, setCategoria] = useState(null);
+  //se inicializa en -1 porque MUI select no permite seleccionar el primer item si el value es null
+  const [categoria, setCategoria] = useState(-1);
   const detalle = useRef('');
   const fecha = useRef('');
-  const [ alerta, setAlerta ] = useState(false);
+  const [ cargando, setCargando ] = useState(false);
+  const [ snackbar, setSnackbar ] = useState(false);
+  const [ snackbarMensaje, setSnackbarMensaje ] = useState('');
+  const [ severidadDeAlert, setSeveridadDeAlert ] = useState(null);
 
   const cargarCategorias = (event) => {
     const idCategoria = event.target.value;
@@ -22,11 +23,18 @@ const AgregarEvento = () => {
     setCategoria(idCategoria);
   };
 
-  const cerrarAlert = () => {
-    setAlerta(false);
+  const cerrarAnimacion = () => {
+    setCargando(false);
+  };
+  const cerrarSnackbar = (event, reason) => {
+    if(reason == 'clickaway'){
+      return;
+    }
+    setSnackbar(false);
   };
 
   const agregarEvento = () => {
+    setCargando(true);
     if(fecha.current.value === '') {
       const now = new Date();
       const year = now.getFullYear();
@@ -35,21 +43,29 @@ const AgregarEvento = () => {
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
 
-      fecha.current.value = `${year}-${month}-${day}T${hours}:${minutes}`;
+      fecha.current.value = `${year}-${month}-${day} ${hours}:${minutes}`;
     }
     const fechaActual = new Date().toISOString().split('T')[0];
     if(categoria === null || categoria === -1 || detalle.current.value === '' || new Date(fecha.current.value).toISOString().split('T')[0] > new Date(fechaActual)){
-      setAlerta(true);
+      setCargando(false);
+      setSnackbar(true);
+      setSnackbarMensaje('Datos incompletos');
+      setSeveridadDeAlert('error')
       return;
     }
     const usuario = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     const evento = {
-      idCategoria: categoria,
-      idUsuario: id,
+      idCategoria: `${categoria}`,
+      idUsuario: `${id}`,
       detalle: detalle.current.value,
       fecha: fecha.current.value,
     };
+    // eliminar "T" de la fecha para que coincida con el formato que viene dese la API
+    //esto evita problemas al comparar fechas
+    //el formato "2024-08-07T19:41" se convierte en "2024-08-07 19:41"
+    evento.fecha = evento.fecha.replace('T', ' ');
+  
     fetch(API_URL+'eventos.php', {
       method: 'POST',
       headers: {
@@ -61,103 +77,107 @@ const AgregarEvento = () => {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       if(data.codigo === 200){
-        alert(data.mensaje);
+        setCargando(false);
+        setSnackbar(true);
+        setSnackbarMensaje('Evento guardado!');
+        setSeveridadDeAlert('success')
         //api responde la id del evento así que agrega al estado global para evitar errores al renderizar un evento sin id
         //y eliminar antes de que se ejecute el useEffect con el fetch de eventoss
         evento.id = data.idEvento;
         detalle.current.value = '';
         fecha.current.value = '';
         //se agrega evento al store para actualizar la lista de eventos de forma automática
-        dispatch(agregar(evento));
+        dispatch(agregar(evento))
       } else {
-        cerrarSesion();
-        navigate('/login');
-        alert(data.mensaje);
+        setCargando(false);
+        setSnackbar(true);
+        setSnackbarMensaje('Algo salió mal');
+        setSeveridadDeAlert('error')
       }
     })
     .catch((error) => {
       console.error('Error:', error);
+      setCargando(false);
+      setSnackbar(true);
+      setSnackbarMensaje('Algo salió mal '+error.mensaje);
+      setSeveridadDeAlert('error');
     });
   };
 
+  //Se usa Box para que el alert y animación funcionen
   return (
     <Box sx={{ p: 2 }}>
-      <Typography variant="h4" align="center" gutterBottom>Registrar nuevo evento</Typography>
-      <Box sx={{ mb: 2 }}>
-        <TextField
-          label="Detalles"
-          variant="outlined"
-          fullWidth
-          inputRef={detalle}
-        />
-      </Box>
-      <Box sx={{ mb: 2 }}>
-        {/*
-          TODO: si se usa directamente el componente Select combinado con Label 
-          el primero no no respeta padding ni márgenes por algúna razón random,
-          mientras tanto se usa TextField
-        */}
-        <TextField
-          select
-          label="Categoría"
-          variant="outlined"
-          fullWidth
-          onChange={cargarCategorias}
-        >
-          <MenuItem value={-1}>Seleccione...</MenuItem>
-          {categorias.map((categoria) => (
-            <MenuItem key={categoria.id} value={categoria.id}>
-              {categoria.tipo}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Box>
-      <Box sx={{ mb: 2 }}>
-        <TextField
-          label="Fecha y hora"
-          type="datetime-local"
-          variant="outlined"
-          fullWidth
-          /* Se usa shrink para evitar que dd/mm/aa se superponga con el label */
-          InputLabelProps={{
-            shrink: true,
-          }}
-          inputRef={fecha}
-        />
-      </Box>
-      <Box sx={{ textAlign: 'center' }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={agregarEvento}
-        >
-          Agregar
-        </Button>
-      </Box>
-      {alerta &&
-      /* Se usa alert dentro de Snacbar para que la posición no dependa del contenedor padre
-        así se puede mostrar en cualquier parte de la pantalla
+      <div className="container mt-4">
+        <h4 className="text-center mb-4">Guardar nuevo evento</h4>
         
-        Falta personalizar mensaje según dato faltante!!!!!
-      */
-        <Snackbar
-        open={alerta}
-        autoHideDuration={3000}
-        onClose={cerrarAlert}
-        >
+        <div className="mb-3">
+          <label htmlFor="detalles" className="form-label">Detalles</label>
+          <input
+            type="text"
+            className="form-control"
+            id="detalles"
+            ref={detalle}
+          />
+        </div>
+        
+        <div className="mb-3">
+          <label htmlFor="categoria" className="form-label">Categoría</label>
+          <select
+            className="form-select"
+            id="categoria"
+            onChange={cargarCategorias}
+          >
+            <option value={-1}>Seleccione...</option>
+            {categorias.map((categoria) => (
+              <option key={categoria.id} value={categoria.id}>
+                {categoria.tipo}
+              </option>
+            ))}
+          </select>
+        </div>
+        
+        <div className="mb-3">
+          <label htmlFor="fecha" className="form-label">Fecha y hora</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            id="fecha"
+            ref={fecha}
+          />
+        </div>
+        
+        <div className="text-center">
+          <button
+            className="btn btn-primary"
+            onClick={agregarEvento}
+          >
+            Agregar
+          </button>
+        </div>
+      </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={cargando}
+        onClick={cerrarAnimacion}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Snackbar
+        open={snackbar}
+        autoHideDuration={6000}
+        onClose={cerrarSnackbar}
+      >
         <Alert
-          severity="error"
+          onClose={cerrarSnackbar}
+          severity={severidadDeAlert}
           variant="filled"
           sx={{ width: '100%' }}
         >
-          Datos de evento incompletos
+          {snackbarMensaje}
         </Alert>
       </Snackbar>
-      }
 
-  
     </Box>
   )
 };

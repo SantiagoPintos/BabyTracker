@@ -9,29 +9,32 @@ const TarjetaInformeEventosHoy = ({imagen, elemento = [], nombre=''}) => {
     const [cantEventosHoy, setCantEventosHoy] = useState(0);
     const imgUrl = `${IMG_API_URL}${imagen}.png`;
 
-    //se hace dentro de useEffect para evitar loop infinito, preguntar por esto
     useEffect(() => {
         const hoy = new Date().toISOString().slice(0, 10);
-        //solo se busca coincidencia por fecha, por eso el slice
-        const eventosHoy = elemento.filter(evento => evento.fecha.slice(0, 10) === hoy);
-        setCantEventosHoy(eventosHoy.length);
+        //la comparación con == es intencional, porque la fecha viene como string desde api
+        const eventosHoy = elemento.filter(evento => evento?.fecha?.slice(0, 10) == hoy);
+        const cantidadEventosHoy = eventosHoy.length;
 
-        if (cantEventosHoy > 0) {
-            setHayEventosHoy(true);
-            const ultimoEvento = eventosHoy[eventosHoy.length - 1];
-            const tiempoDesdeUltimoEventoMs = new Date() - new Date(ultimoEvento.fecha);
-            //ms=>s=>min=>h
-            const horas = Math.floor(tiempoDesdeUltimoEventoMs / 3600000).toString().padStart(2, '0');
-            const minutos = Math.floor((tiempoDesdeUltimoEventoMs % 3600000) / 60000).toString().padStart(2, '0');
-            setTiempoDesdeUltimoEvento(`${horas}:${minutos}`);
+        setCantEventosHoy(cantidadEventosHoy);
+        setHayEventosHoy(cantidadEventosHoy > 0);
+
+        if (cantidadEventosHoy > 0) {
+            const ultimoEvento = eventosHoy[cantidadEventosHoy - 1];
+            if (ultimoEvento && ultimoEvento.fecha) {
+                const tiempoDesdeUltimoEventoMs = new Date() - new Date(ultimoEvento.fecha);
+                const horas = Math.floor(tiempoDesdeUltimoEventoMs / 3600000).toString().padStart(2, '0');
+                const minutos = Math.floor((tiempoDesdeUltimoEventoMs % 3600000) / 60000).toString().padStart(2, '0');
+                setTiempoDesdeUltimoEvento(`${horas}:${minutos}`);
+            } else {
+                setTiempoDesdeUltimoEvento('');
+            }
         } else {
-            setHayEventosHoy(false);
             setTiempoDesdeUltimoEvento('');
         }
-    }, [elemento, cantEventosHoy]);
+    }, [elemento]);
 
     return (
-        <Box>
+        <Box sx={{m:1}}>
             <Paper elevation={2} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
                 <Avatar alt={nombre} src={imgUrl} sx={{ width: 38, height: 38, marginRight: 2 }} />
                 {hayEventosHoy ? (

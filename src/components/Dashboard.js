@@ -9,7 +9,9 @@ import { cerrarSesion } from '../utils/ManejadorDeLogin'
 import AgregarEvento from './AgregarEvento'
 import ListarEventos from './ListarEventos'
 import InformeEventos from './InformeEventos'
-import Analisis from './Analisis';
+import GraficoCantidades from './GraficoCantidades'
+import ComidasUltimaSemana from './ComidasUltimaSemana'
+import TiempoParaProximoBiberon from './TiempoParaProximoBiberon';
 import { loguear } from "../features/logueadoSlice";
 
 const Dashboard = () => {
@@ -78,23 +80,34 @@ const Dashboard = () => {
       <div>
       { 
         tokenValido ? 
-        <div>
-          <div className="container mt-5">
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <AgregarEvento />
-              </div>
-              <div className="col-md-6 mb-3">
-                <ListarEventos />
-              </div>
+        <div className="container mt-5">
+          <div className="row">
+          </div>
+          <div className="row d-flex align-items-stretch">
+            <div className="col-md-6 mb-3 d-flex flex-column">
+              <AgregarEvento />
             </div>
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <InformeEventos />
-              </div>
-              <div className="col-md-6 mb-3">
-                <Analisis />
-              </div>
+            <div className="col-md-6 mb-3 d-flex flex-column">
+              <ListarEventos />
+            </div>
+          </div>
+          <div className="row">
+          </div>
+          <div className="row d-flex align-items-stretch">
+            <div className="col-md-6 mb-3 d-flex flex-column">
+              <InformeEventos />
+            </div>
+            <div className="col-md-6 mb-3 d-flex flex-column">
+              <h4 className='text-center'>Información sobre el biberón:</h4>
+              <TiempoParaProximoBiberon />
+            </div>
+          </div>
+          <div className="row d-flex align-items-stretch">
+            <div className="col-md-6 mb-3 d-flex flex-column">
+              <GraficoCantidades />
+            </div>
+            <div className="col-md-6 mb-3 d-flex flex-column">
+              <ComidasUltimaSemana />
             </div>
           </div>
           <Outlet />
