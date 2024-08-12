@@ -46,7 +46,7 @@ const AgregarEvento = () => {
       fecha.current.value = `${year}-${month}-${day} ${hours}:${minutes}`;
     }
     const fechaActual = new Date().toISOString().split('T')[0];
-    if(categoria === null || categoria === -1 || detalle.current.value === '' || new Date(fecha.current.value).toISOString().split('T')[0] > new Date(fechaActual)){
+    if(categoria === null || categoria === -1 || new Date(fecha.current.value).toISOString().split('T')[0] > new Date(fechaActual)){
       setCargando(false);
       setSnackbar(true);
       setSnackbarMensaje('Datos incompletos');
@@ -112,7 +112,7 @@ const AgregarEvento = () => {
         <h4 className="text-center mb-4">Guardar nuevo evento</h4>
         
         <div className="mb-3">
-          <label htmlFor="detalles" className="form-label">Detalles</label>
+          <label htmlFor="detalles" className="form-label">Detalles (opcional)</label>
           <input
             type="text"
             className="form-control"
