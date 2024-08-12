@@ -116,7 +116,7 @@ const TarjetaEvento = ({evento}) => {
         </CardContent>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
-        <Button variant="contained" color="primary" onClick={eliminarEvento}>
+        <Button variant="contained" style={{ color: 'white', backgroundColor: '#272727'}} onClick={eliminarEvento}>
           Eliminar
         </Button>
       </Box>

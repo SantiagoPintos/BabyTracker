@@ -20,10 +20,9 @@ const ListarEventos = () => {
     //se harcodea la altura para que el componente no desplace las gráficas y genere un espacio en blanco a la izquierda
     //TODO: hacerlo responsive desde el padre
     return (
-        <Box>
-            <Typography className="text-center" variant="h4" sx={{pt:2}}>Registro de eventos</Typography>
+        <Box sx={{mt:2}}>
+            <h4 className="text-center">Lista de eventos</h4>
             <Box sx={{height: '400px', overflowY: 'auto'}}>
-                <Paper elevation={2} sx={{mt:2}} >
                     {/* tabs de colores: https://mui.com/material-ui/react-tabs/#colored-tab*/}
                     <Tabs 
                         value={pestanaActiva} 
@@ -54,7 +53,6 @@ const ListarEventos = () => {
                             )
                         )}
                     </Box>
-                </Paper>
             </Box>
         </Box>
     )

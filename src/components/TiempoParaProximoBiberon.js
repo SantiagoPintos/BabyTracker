@@ -34,14 +34,17 @@ const TiempoParaProximoBiberon = () => {
 
 
     return (
-        <Box sx={{mt:1}}>
-            <Paper elevation={2} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
-                <Avatar alt='Imagen de biberón' src='https://babytracker.develotion.com/imgs/5.png' sx={{ width: 38, height: 38, marginRight: 2 }} />
-                    <Box>
-                        <Typography color={colorTexto} variant="body1">{tiempoParaProximoBiberon}</Typography>
-                    </Box>
-            </Paper>
-        </Box>
+        <div>
+            <h4 className='text-center pb-3'>Información sobre el biberón</h4>
+            <Box sx={{mt:1}}>
+                <Paper elevation={2} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
+                    <Avatar alt='Imagen de biberón' src='https://babytracker.develotion.com/imgs/5.png' sx={{ width: 38, height: 38, marginRight: 2 }} />
+                        <Box>
+                            <Typography color={colorTexto} variant="body1">{tiempoParaProximoBiberon}</Typography>
+                        </Box>
+                </Paper>
+            </Box>
+        </div>
     );
 };
 

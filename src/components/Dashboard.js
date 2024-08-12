@@ -81,9 +81,7 @@ const Dashboard = () => {
       <div>
       { 
         tokenValido ? 
-        <div className="container mt-5">
-          <div className="row">
-          </div>
+        <div className="container mt-4">
           <div className="row d-flex align-items-stretch">
             <div className="col-md-6 mb-3 d-flex flex-column">
               <AgregarEvento />
@@ -92,18 +90,16 @@ const Dashboard = () => {
               <ListarEventos />
             </div>
           </div>
-          <div className="row">
-          </div>
           <div className="row d-flex align-items-stretch">
             <div className="col-md-6 mb-3 d-flex flex-column">
               <InformeEventos />
             </div>
             <div className="col-md-6 mb-3 d-flex flex-column">
-              <h4 className='text-center'>Información sobre el biberón:</h4>
               <TiempoParaProximoBiberon />
             </div>
           </div>
-          <div className="row d-flex align-items-stretch">
+          <div className="row d-flex align-items-stretch my-4">
+            <h4 className="mb-3 text-center">Gráficas</h4>
             <div className="col-md-6 mb-3 d-flex flex-column">
               <GraficoCantidades />
             </div>

@@ -34,8 +34,8 @@ const TarjetaInformeEventosHoy = ({imagen, elemento = [], nombre=''}) => {
     }, [elemento]);
 
     return (
-        <Box sx={{m:1}}>
-            <Paper elevation={2} sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
+        <Box >
+            <Paper elevation={2} sx={{ p: 1, display: 'flex', alignItems: 'center' }}>
                 <Avatar alt={nombre} src={imgUrl} sx={{ width: 38, height: 38, marginRight: 2 }} />
                 {hayEventosHoy ? (
                     <Box>

@@ -113,7 +113,7 @@ const Login = () => {
 
 
     return(
-        <div className="container-fluid">
+        <div className="container-fluid mt-5">
             <div className="row justify-content-center my-3">
                 <div className="col-lg-4 col-md-8 col-sm-6">
                     <div className="text-center my-5">
@@ -129,8 +129,8 @@ const Login = () => {
                         <label htmlFor="passwd">Contraseña</label>
                     </div>
                     <div className="text-center">
-                        <button className="btn btn-primary my-2 mx-2" onClick={login}>Ingresar</button>
-                        <Link to="/registro" className="btn btn-primary my-2 mx-2">Registrarse</Link>
+                        <button className="btn my-2 mx-2" style={{ color: 'white', backgroundColor: '#272727'}} onClick={login}>Ingresar</button>
+                        <Link to="/registro" style={{ color: 'white', backgroundColor: '#272727'}} className="btn my-2 mx-2">Registrarse</Link>
                     </div>
                     <Backdrop
                       sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

@@ -1,5 +1,5 @@
 import LogoutBoton from "./LogoutBoton"
-import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Typography, Avatar } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { useEffect, useState }  from 'react';
 
@@ -16,7 +16,7 @@ const Header = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position="static" sx={{ backgroundColor: 'white', color: '#272727'}}>
           <Toolbar>
             <IconButton
               size="large"
@@ -25,9 +25,16 @@ const Header = () => {
               aria-label="menu"
               sx={{ mr: 2 }}
             >
+              { logueado 
+                ? <Avatar
+                  alt="Icono de usuario"
+                  src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  />
+                : null
+              }
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Bienvenido
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1}}>
+              BabyTracker
             </Typography>
             { logueado ? <LogoutBoton /> : null }
           </Toolbar>

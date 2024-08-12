@@ -108,7 +108,7 @@ const AgregarEvento = () => {
   //Se usa Box para que el alert y animación funcionen
   return (
     <Box sx={{ p: 2 }}>
-      <div className="container mt-4">
+      <div className="container">
         <h4 className="text-center mb-4">Guardar nuevo evento</h4>
         
         <div className="mb-3">
@@ -149,8 +149,9 @@ const AgregarEvento = () => {
         
         <div className="text-center">
           <button
-            className="btn btn-primary"
+            className="btn"
             onClick={agregarEvento}
+            style={{ color: 'white', backgroundColor: '#272727'}}
           >
             Agregar
           </button>
