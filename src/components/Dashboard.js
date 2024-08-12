@@ -23,10 +23,11 @@ const Dashboard = () => {
     const id = localStorage.getItem('id');
 
     useEffect(() => {
-        dispatch(loguear());
-        if(user === null || id === null){
-            navigate('/login');
-        }
+      if(user === null || id === null){
+        navigate('/login');
+        return;
+      }
+      dispatch(loguear());
         //carga categorías
         fetch(API_URL+'categorias.php', {
           method: 'GET',
