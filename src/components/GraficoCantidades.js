@@ -17,7 +17,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const GraficoCantidades = () => {
@@ -27,6 +27,8 @@ const GraficoCantidades = () => {
 
     //actualiza el gráfico cada vez que cambian las categorías o los eventos
     useEffect(() => {
+        console.log('Categorias actualizadas:', categorias);
+        console.log('Eventos actualizados:', eventos);
         //filtra las categorías que tienen eventos asociados
         const labels = categorias
             //.some verifica si al menos un elemento cumple con la condición
@@ -35,21 +37,21 @@ const GraficoCantidades = () => {
             //luego se mapea el array de categorías para obtener solo los tipos
             //de las categorías que tienen eventos asociados
             //esto se hace para que el gráfico no muestre categorías sin eventos
-            .filter(categoria => eventos.some(evento => evento.idCategoria === categoria.id))
+            .filter(categoria => eventos.some(evento => evento.idCategoria == categoria.id))
             .map(categoria => categoria.tipo);
 
         const data = categorias
-            .filter(categoria => eventos.some(evento => evento.idCategoria === categoria.id))
-            .map(categoria => eventos.filter(evento => evento.idCategoria === categoria.id).length);
+            .filter(categoria => eventos.some(evento => evento.idCategoria == categoria.id))
+            .map(categoria => eventos.filter(evento => evento.idCategoria == categoria.id).length);
 
         setDatos({
             labels,
             datasets: [{
-                backgroundColor: "#9BD0F5",
+                backgroundColor: "#272727",
                 label: 'Cantidad de eventos',
+                borderRadius: 3,
                 data,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
+                borderWidth: 0,
             }]
         });
         //preguntar por esto: si se elimina el array de dependencias, el grafico no se renderiza
@@ -60,6 +62,19 @@ const GraficoCantidades = () => {
             <Bar 
                 options={{
                     responsive: true,
+                    //desactiva la grilla
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
                     plugins: {
                         legend: {
                             position: 'top',
