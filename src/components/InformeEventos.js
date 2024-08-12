@@ -12,18 +12,18 @@ const InformeEventos = () => {
             <h4 className="text-center pb-3">Informe de eventos diarios</h4>
             <div className="row">
                 <div className="col-6">
-                <TarjetaInformeEventosHoy
-                    imagen={5} 
-                    elemento={biberones} 
-                    nombre={'Biberones'}
-                />
+                    <TarjetaInformeEventosHoy
+                        imagen={5} 
+                        elemento={biberones} 
+                        nombre={'Biberones'}
+                    />
                 </div>
                 <div className="col-6">
-                <TarjetaInformeEventosHoy 
-                    imagen={3} 
-                    elemento={panales} 
-                    nombre={'Pañales'} 
-                />
+                    <TarjetaInformeEventosHoy 
+                        imagen={3} 
+                        elemento={panales} 
+                        nombre={'Pañales'} 
+                    />
                 </div>
 
             </div>
