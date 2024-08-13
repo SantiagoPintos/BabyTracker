@@ -27,8 +27,6 @@ const GraficoCantidades = () => {
 
     //actualiza el gráfico cada vez que cambian las categorías o los eventos
     useEffect(() => {
-        console.log('Categorias actualizadas:', categorias);
-        console.log('Eventos actualizados:', eventos);
         //filtra las categorías que tienen eventos asociados
         const labels = categorias
             //.some verifica si al menos un elemento cumple con la condición
@@ -37,12 +35,12 @@ const GraficoCantidades = () => {
             //luego se mapea el array de categorías para obtener solo los tipos
             //de las categorías que tienen eventos asociados
             //esto se hace para que el gráfico no muestre categorías sin eventos
-            .filter(categoria => eventos.some(evento => evento.idCategoria == categoria.id))
+            .filter(categoria => eventos.some(evento => evento.idCategoria === categoria.id))
             .map(categoria => categoria.tipo);
 
         const data = categorias
-            .filter(categoria => eventos.some(evento => evento.idCategoria == categoria.id))
-            .map(categoria => eventos.filter(evento => evento.idCategoria == categoria.id).length);
+            .filter(categoria => eventos.some(evento => evento.idCategoria === categoria.id))
+            .map(categoria => eventos.filter(evento => evento.idCategoria === categoria.id).length);
 
         setDatos({
             labels,

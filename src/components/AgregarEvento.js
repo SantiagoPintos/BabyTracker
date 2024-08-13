@@ -45,8 +45,8 @@ const AgregarEvento = () => {
 
       fecha.current.value = `${year}-${month}-${day} ${hours}:${minutes}`;
     }
-    const fechaActual = new Date().toISOString().split('T')[0];
-    if(categoria === null || categoria === -1 || new Date(fecha.current.value).toISOString().split('T')[0] > new Date(fechaActual)){
+    const fechaActual = new Date();
+    if(categoria === null || categoria === -1 || new Date(fecha.current.value) > new Date(fechaActual)){
       setCargando(false);
       setSnackbar(true);
       setSnackbarMensaje('Datos incompletos');
@@ -56,8 +56,8 @@ const AgregarEvento = () => {
     const usuario = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     const evento = {
-      idCategoria: `${categoria}`,
-      idUsuario: `${id}`,
+      idCategoria: Number(categoria),
+      idUsuario: id,
       detalle: detalle.current.value,
       fecha: fecha.current.value,
     };
@@ -73,7 +73,7 @@ const AgregarEvento = () => {
         'apiKey': usuario,
         'iduser': id,
       },
-      body: JSON.stringify(evento)
+      body: evento
     })
     .then(response => response.json())
     .then(data => {
