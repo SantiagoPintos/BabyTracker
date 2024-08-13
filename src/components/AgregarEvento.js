@@ -61,11 +61,6 @@ const AgregarEvento = () => {
       detalle: detalle.current.value,
       fecha: fecha.current.value,
     };
-    // eliminar "T" de la fecha para que coincida con el formato que viene dese la API
-    //esto evita problemas al comparar fechas
-    //el formato "2024-08-07T19:41" se convierte en "2024-08-07 19:41"
-    evento.fecha = evento.fecha.replace('T', ' ');
-  
     fetch(API_URL+'eventos.php', {
       method: 'POST',
       headers: {

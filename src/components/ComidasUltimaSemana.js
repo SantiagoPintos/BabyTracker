@@ -31,16 +31,13 @@ const ComidasUltimaSemana = () => {
             for (let i = 6; i >= 0; i--) {
                 const fecha = new Date();
                 fecha.setDate(fecha.getDate() - i);
-                console.log('fecha dentro del bucle: ',fecha.toLocaleDateString('es-UY'))
                 dias.push(fecha.toISOString().split('T')[0]); // Formato YYYY-MM-DD
             }
-            console.log('dias ', dias)
             return dias;
         };
 
         // Obtener los últimos 7 días
         const ultimos7Dias = obtenerUltimos7Dias();
-        console.log('ultimos7dias ',ultimos7Dias);
 
         // Filtrar comidas de los últimos 7 días
         const comidasFiltradas = eventos.filter(evento => 
