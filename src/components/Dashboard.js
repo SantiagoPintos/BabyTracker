@@ -12,7 +12,7 @@ import InformeEventos from './InformeEventos'
 import GraficoCantidades from './GraficoCantidades'
 import ComidasUltimaSemana from './ComidasUltimaSemana'
 import TiempoParaProximoBiberon from './TiempoParaProximoBiberon';
-import { loguear } from "../features/logueadoSlice";
+import { loguear, desloguear } from "../features/logueadoSlice";
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -66,6 +66,7 @@ const Dashboard = () => {
               if(data.codigo === 401){
                   //cubre caso en que token no es válido
                   cerrarSesion();
+                  dispatch(desloguear());
                   navigate('/login');
               } else {
                   dispatch(guardar(data.eventos));
