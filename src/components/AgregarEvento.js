@@ -68,7 +68,7 @@ const AgregarEvento = () => {
         'apiKey': usuario,
         'iduser': id,
       },
-      body: evento
+      body: JSON.stringify(evento)
     })
     .then(response => response.json())
     .then(data => {
