@@ -14,7 +14,6 @@ import { useSelector } from 'react-redux';
 const ComidasUltimaSemana = () => {
     const eventos = useSelector(state => state.eventos.eventos);
     const [datos, setDatosGrafico] = useState({ labels: [], datasets: [] });
-    console.log(eventos);
     ChartJS.register(
         CategoryScale,
         LinearScale,
