@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { Paper, Tabs, Tab, Box, Typography } from '@mui/material';
+import { Tabs, Tab, Box, Typography } from '@mui/material';
 import TarjetaEvento from "./TarjetaEvento";
 
 const ListarEventos = () => {
