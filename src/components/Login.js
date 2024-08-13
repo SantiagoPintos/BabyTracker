@@ -21,6 +21,7 @@ const Login = () => {
     //'error': rojo
     //'success': verde
     const [ severidadDeAlert, setSeveridadDeAlert ] = useState(null);
+    const [ botonActivado, setBotonActivado ] = useState(false);
 
     useEffect(() => {
         if(localStorage.getItem('token') !== null){
@@ -28,6 +29,14 @@ const Login = () => {
             dispatch(loguear());
         }
     } ,[]);
+
+    const habilitarBtnLogin = () => {
+        console.log('se entra')
+        if(usuario.current.value !== '' && passwd.current.value !== ''){
+            console.log('se habilita')
+            setBotonActivado(true);
+        }
+    };
 
     const cerrarAnimacion = () => {
         setCargando(false);
@@ -121,15 +130,15 @@ const Login = () => {
                     </div>
                     {/* https://getbootstrap.com/docs/5.0/forms/floating-labels/#example */}
                     <div className="form-floating mb-3">
-                        <input className="form-control" id="usuario" type="text" ref={usuario} />
+                        <input className="form-control" id="usuario" type="text" ref={usuario} onChange={habilitarBtnLogin} />
                         <label htmlFor="usuario">Usuario</label>
                     </div>
                     <div className="form-floating">
-                        <input className="form-control" id="passwd" type="password" ref={passwd} />
+                        <input className="form-control" id="passwd" type="password" ref={passwd} onChange={habilitarBtnLogin} />
                         <label htmlFor="passwd">Contraseña</label>
                     </div>
                     <div className="text-center">
-                        <button className="btn my-2 mx-2" style={{ color: 'white', backgroundColor: '#272727'}} onClick={login}>Ingresar</button>
+                        <button className="btn my-2 mx-2" disabled={!botonActivado} style={{ color: 'white', backgroundColor: '#272727'}} onClick={login}>Ingresar</button>
                         <Link to="/registro" style={{ color: 'white', backgroundColor: '#272727'}} className="btn my-2 mx-2">Registrarse</Link>
                     </div>
                     <Backdrop
