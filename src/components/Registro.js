@@ -24,6 +24,17 @@ const Registro = () => {
     //'error': rojo
     //'success': verde
     const [ severidadDeAlert, setSeveridadDeAlert ] = useState(null);
+    const [ botonActivado, setBotonActivado ] = useState(false);
+
+
+    const habilitarBtnRegistro = () => {
+        if(usuario.current.value !== '' && passwd.current.value !== ''){
+            setBotonActivado(true);
+        } else {
+            setBotonActivado(false);
+        }
+    };
+
     const cerrarAnimacion = () => {
         setCargando(false);
     };
@@ -157,11 +168,11 @@ const Registro = () => {
                 <div className="col-lg-4 col-md-8 col-sm-6">
                     <h1 className="py-3 text-center">Registrarse</h1>
                     <div className="form-floating my-3">
-                        <input className="form-control" type="text" id="usuario" ref={usuario} />
+                        <input className="form-control" type="text" id="usuario" ref={usuario} onChange={habilitarBtnRegistro} />
                         <label htmlFor="usuario">Usuario</label>
                     </div>
                     <div className="form-floating my-3">
-                        <input className="form-control" id="passwd" type="password" ref={passwd} />
+                        <input className="form-control" id="passwd" type="password" ref={passwd} onChange={habilitarBtnRegistro} />
                         <label htmlFor="passwd">Contraseña</label>
                     </div>
                     <div className="form-floating my-3">
@@ -183,7 +194,7 @@ const Registro = () => {
                         <label htmlFor="selectCiudad">Ciudad</label>
                     </div>
                     <div className="text-center">
-                        <input className="btn my-3" type="button" style={{ color: 'white', backgroundColor: '#272727'}} value="Registrarse" onClick={registrar}/>
+                        <input className="btn my-3" disabled={!botonActivado} type="button" style={{ color: 'white', backgroundColor: '#272727'}} value="Registrarse" onClick={registrar}/>
                     </div>
                     <Backdrop
                       sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

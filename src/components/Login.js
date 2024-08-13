@@ -31,10 +31,11 @@ const Login = () => {
     } ,[]);
 
     const habilitarBtnLogin = () => {
-        console.log('se entra')
         if(usuario.current.value !== '' && passwd.current.value !== ''){
-            console.log('se habilita')
             setBotonActivado(true);
+        } else {
+            //se agrega else para cubrir caso en que usuario escribe los datos, y luego los borra
+            setBotonActivado(false);
         }
     };
 
