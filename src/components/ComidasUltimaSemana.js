@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 const ComidasUltimaSemana = () => {
     const eventos = useSelector(state => state.eventos.eventos);
     const [datos, setDatosGrafico] = useState({ labels: [], datasets: [] });
-
+    console.log(eventos);
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -40,8 +40,9 @@ const ComidasUltimaSemana = () => {
         const ultimos7Dias = obtenerUltimos7Dias();
 
         // Filtrar comidas de los últimos 7 días
+        //La fecha proveniente de de la api tiene un espacio entre dia y hora, la que viene del formulario local tiene una T entre la fecha y la hora
         const comidasFiltradas = eventos.filter(evento => 
-            evento.idCategoria === 31 && ultimos7Dias.includes(evento.fecha.split(' ')[0])
+            evento.idCategoria === 31 && (ultimos7Dias.includes(evento.fecha.split(' ')[0]) || ultimos7Dias.includes(evento.fecha.split('T')[0]))
         );
 
         // Contar comidas por día
